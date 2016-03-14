@@ -85,22 +85,74 @@ class UserAppNew extends Component {
   render() {
     const permissionObj = this.state.permissionObj
     return (
-      <form onSubmit={this.onSubmit}>
-        <input type="text" placeholder="Client ID" required ref="clientId" />
-        <input type="text" placeholder="Redirect URIs (Comma Separated)" required ref="redirectURIs" />
-        <input type="text" placeholder="Display Name" required ref="displayName" />
-        <input type="text" placeholder="Description" ref="description" />
-        <input type="text" placeholder="Owner Description" ref="ownerDescription" />
-        <input type="text" placeholder="privacy URL" ref="privacyURL" />
-        {Object.keys(permissionObj).map( (perm) => {
-          return (
-            <div key={perm}>
-              <input type="checkbox" value={perm} onClick={this.updatePermissions} /> {permissionObj[perm]}
-            </div>
-          )
-        })}
-        <input type="submit"/>
-      </form>
+      
+
+      <div className="newAppForm">
+	      <form onSubmit={this.onSubmit} className="form-horizontal">
+	      	<div className="form-group">
+		        <label for="clientId" className="col-sm-3 control-label">Client ID</label>
+		        <div className="col-sm-8">
+		        	<input className="col-sm-12" type="text" required ref="clientId" aria-describedby="ClientIDHelp"/>
+							<span id="ClientIDHelp" className="help-block">Here's where we describe what a Client ID is.</span>
+		        </div>
+	        </div>
+	        
+		      <div className="form-group"> 
+		        <label for="redirectURIs" className="col-sm-3 control-label">Redirect URIs <br />(Comma Separated)</label>
+		        <div className="col-sm-8">
+		        	<input className="col-sm-12" type="text" ref="redirectURIs" aria-describedby="ClientIDHelp" required />
+							<span id="RedirectURIsHelp" className="help-block">Here's where we describe what a Redirect URI is.</span>
+			      </div>	
+		      </div> 
+		      
+		      <div className="form-group">
+						<label for="displayName" className="col-sm-3 control-label">Display Name</label>
+						<div className="col-sm-8">
+			        <input className="col-sm-12" type="text" required ref="displayName" aria-describedby="displayNameHelp"/>
+			        <span id="displayNameHelp" className="help-block">What is a display name is that like my name or the name of the app or something else?</span>
+						</div>
+		      </div>
+		      		      
+		      <div className="form-group">
+						<label for="description" className="col-sm-3 control-label">Description</label>
+						<div className="col-sm-8">
+			        <textarea className="col-sm-12" rows="2" required ref="description" aria-describedby="descriptionHelp"/>
+			        <span id="descriptionHelp" className="help-block">What are you doing with the app?  Who will use it? What data are you accessing?</span>
+						</div>
+		      </div>
+		      
+	        <div className="form-group">
+						<label for="ownerDescription" className="col-sm-3 control-label">Owner Description</label>
+						<div className="col-sm-8">
+			        <textarea className="col-sm-12" rows="2" required ref="ownerDescription" aria-describedby="ownerDescriptionHelp"/>
+			        <span id="ownerDescriptionHelp" className="help-block">I dont even know what this means?</span>
+						</div>
+		      </div>
+
+		      <div className="form-group">
+						<label for="privacyURL" className="col-sm-3 control-label">Privacy URL</label>
+						<div className="col-sm-8">
+			        <input className="col-sm-12" type="text" required ref="privacyURL" aria-describedby="privacyURLHelp"/>
+			        <span id="privacyURLHelp" className="help-block">Info about Privacy URL stuffs</span>
+						</div>
+		      </div>
+		      
+		      <div className="form-group">
+			      <label for="permissions" className="col-sm-3 control-label">Permissions</label>			   
+			      <div className="col-sm-8">		      
+		        {Object.keys(permissionObj).map( (perm) => {
+		          return (
+		            <div key={perm}>
+		              <input type="checkbox" value={perm} onClick={this.updatePermissions} /> {permissionObj[perm]}
+		            </div>
+		          )
+		        })}
+			      </div>
+		      </div>
+		      
+	        <button type="submit" className="btn btn-primary col-sm-offset-3">Submit</button>
+	      </form>
+      </div>
     )
   }
 }

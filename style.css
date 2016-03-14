@@ -7,8 +7,19 @@
 @grey: #666;
 */
 
-h1, h2, h3, h4, h5, h6, p, ul, li, a{
+body{
 	font-family: 'Open Sans', sans-serif;
+	color: #19273C;
+}
+
+p{
+	font-size: 15px;
+
+}
+
+h3{
+	color: #19273C;
+	font-weight: bold;
 }
 
 a{
@@ -70,6 +81,11 @@ ul#applist{
 	margin-top: 40px;
 }
 
+.btn{
+	font-weight: bold;
+	letter-spacing: .03em;
+}
+
 .btn-primary{
 	background-color: #19273C;
 	-webkit-box-shadow: none;
@@ -92,3 +108,37 @@ ul#applist{
     -webkit-box-shadow: none;
     box-shadow: none;
     }
+    
+textarea, textarea.form-control, input.form-control, input[type=text], input[type=password], input[type=email], input[type=number], [type=text].form-control, [type=password].form-control, [type=email].form-control, [type=tel].form-control, [contenteditable].form-control{
+	 padding: 7px;
+ }
+ 
+.newAppForm .control-label{
+	 padding-top: 9px;
+ }
+ 
+.newAppForm .btn-primary{
+	margin-top: 30px;
+}
+ 
+input[type="checkbox"]:checked:after, .checkbox input[type="checkbox"]:checked:after, .checkbox-inline input[type="checkbox"]:checked:after{
+	 background-color: #4b759b;
+	 border-color: #4b759b;
+ }
+ 
+textarea, textarea.form-control, input.form-control, input[type=text], input[type=password], input[type=email], input[type=number], [type=text].form-control, [type=password].form-control, [type=email].form-control, [type=tel].form-control, [contenteditable].form-control{
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	border: 1px solid #19273C;
+	border-radius: 2px;
+	
+}
+ 
+.control-label{
+	font-size: 16px;
+	font-weight: 500;
+}
+ 
+.help-block{
+	color: #4b759b;
+	}
