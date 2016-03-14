@@ -7,7 +7,7 @@ class UserAppNew extends Component {
     super(props)
 
     this.state = {
-      permissionObj: {}
+      permissionObj: JSON.parse(sessionStorage.getItem('permissionObj')) || {}
     }
 
     this.onSubmit = this.onSubmit.bind(this)
@@ -17,27 +17,30 @@ class UserAppNew extends Component {
   }
 
   componentDidMount() {
-    let ax = axios
-      .get('https://api.colab.duke.edu/meta/v1/docs', {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': Credentials.getClientId()
-        }
-      })
-      .then( (res) => {
-        const metaScopes = res.data.meta.v1.securityDefinitions.duke_auth.scopes
-        for (let key of Object.keys(metaScopes)) {
-          if (key !== 'meta:api:write') {
-            this.state.permissionObj[key] = metaScopes[key]
+    if (Object.keys(this.state.permissionObj).length === 0 && JSON.stringify(this.state.permissionObj) === JSON.stringify({})) {
+      axios
+        .get('https://api.colab.duke.edu/meta/v1/docs', {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': Credentials.getClientId()
           }
-        }
-        this.setState({
-          permissionObj: this.state.permissionObj
         })
-      })
-      .catch( (res) => {
-        console.error(res)
-      })
+        .then( (res) => {
+          const metaScopes = res.data.meta.v1.securityDefinitions.duke_auth.scopes
+          for (let key of Object.keys(metaScopes)) {
+            if (key !== 'meta:api:write') {
+              this.state.permissionObj[key] = metaScopes[key]
+            }
+          }
+          this.setState({
+            permissionObj: this.state.permissionObj
+          })
+          sessionStorage.setItem('permissionObj', JSON.stringify(this.state.permissionObj))
+        })
+        .catch( (res) => {
+          console.error(res)
+        })
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
