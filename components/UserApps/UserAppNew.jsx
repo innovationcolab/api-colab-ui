@@ -36,7 +36,7 @@ class UserAppNew extends Component {
           this.setState({
             permissionObj: this.state.permissionObj
           })
-          this.setPermissionObj(this.state.permissionObj)
+          Config.setPermissionObj(this.state.permissionObj)
         })
         .catch( (res) => {
           console.error(res)
