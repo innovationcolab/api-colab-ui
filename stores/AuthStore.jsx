@@ -24,7 +24,6 @@ class AuthStore {
       this.setState({ accessToken: null, error: 'state mismatch'})
       return
     }
-    console.info(paramObj)
     this.saveTokens(paramObj)
     this.loginSuccess()
   }

@@ -7,8 +7,6 @@ import AuthActions from './actions/AuthActions.jsx'
 import AuthStore from './stores/AuthStore.jsx'
 
 function requireAuth(nextState, replace) {
-  console.info(nextState)
-  
   if (nextState.location.hash !== '' && AuthStore.getState().accessToken === null) {
     AuthActions.login(nextState.location.hash)
     location.hash = ''
