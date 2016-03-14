@@ -30,6 +30,7 @@ class UserAppContainer extends Component {
             <UserAppList {...this.props} />
           </div>
           <div className="col-sm-8 appdetails">
+	          <h3>Register a New App</h3>
             <UserAppNew {...this.props} />
           </div>
         </div>
@@ -43,7 +44,7 @@ class UserAppContainer extends Component {
             <UserAppList {...this.props} />
           </div>
           <div className="col-sm-8 appdetails">
-            <h3>Welcome to the App Registration page</h3>
+            <h3>App Registration for API Keys</h3>
             <p>Many of the Co-Lab&rsquo;s data services require an API key to use.  To receive an API key, you can register an application here.  That key will allow you to explore the data and use it in your applications.</p>
             <button className="btn btn-primary" onClick={this.onClick} role="button">Register an App</button>
           </div>
