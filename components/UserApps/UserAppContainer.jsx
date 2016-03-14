@@ -6,10 +6,19 @@ import UserAppNew from './UserAppNew.jsx'
 class UserAppContainer extends Component {
   constructor(props) {
     super(props)
+
+    this.onClick = this.onClick.bind(this)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return true
+  }
+
+  onClick(e) {
+    e.preventDefault()
+
+    const {addUserApp} = this.props
+    addUserApp()
   }
 
   render() {
@@ -26,8 +35,8 @@ class UserAppContainer extends Component {
         </div>
       )
     }
-    const {activeUserApp} = this.props
-    if (Object.keys(activeUserApp).length === 0 && JSON.stringify(activeUserApp) === JSON.stringify({})) {
+    const {activeUserApp, userApps} = this.props
+    if (userApps.length === 0) {
       return (
         <div className="row">
           <div className="col-sm-4">
@@ -36,7 +45,19 @@ class UserAppContainer extends Component {
           <div className="col-sm-8 appdetails">
             <h3>Welcome to the App Registration page</h3>
             <p>Many of the Co-Lab&rsquo;s data services require an API key to use.  To receive an API key, you can register an application here.  That key will allow you to explore the data and use it in your applications.</p>
-            <button className="btn btn-primary" href="#" role="button">Register an App</button>
+            <button className="btn btn-primary" onClick={this.onClick} role="button">Register an App</button>
+          </div>
+        </div>
+      )
+    }
+    if (Object.keys(activeUserApp).length === 0 && JSON.stringify(activeUserApp) === JSON.stringify({})) {
+      return (
+        <div className="row">
+          <div className="col-sm-4">
+            <UserAppList {...this.props} />
+          </div>
+          <div className="col-sm-8 appdetails">
+            <h3>Select an App to Begin</h3>
           </div>
         </div>
       )

@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Credentials from '../Credentials.jsx'
+import Config from '../Config.jsx'
 
 class UserAppNew extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      permissionObj: JSON.parse(sessionStorage.getItem('permissionObj')) || {}
+      permissionObj: Config.getPermissionObj()
     }
 
     this.onSubmit = this.onSubmit.bind(this)
@@ -35,7 +36,7 @@ class UserAppNew extends Component {
           this.setState({
             permissionObj: this.state.permissionObj
           })
-          sessionStorage.setItem('permissionObj', JSON.stringify(this.state.permissionObj))
+          this.setPermissionObj(this.state.permissionObj)
         })
         .catch( (res) => {
           console.error(res)

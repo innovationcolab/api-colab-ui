@@ -7,31 +7,7 @@ class App extends Component {
     super(props)
 
     this.state = {
-      userApps: [{
-        "clientId": "vw-test",
-        "clientSecret": "HmEfz2W%CXsEIt2PI9=NGq6EDAC4iF9q4z6y29w@@6LJCstsTE",
-        "redirectURIs": [
-          "https://dev.colab.duke.edu/"
-        ],
-        "displayName": "vw-app",
-        "description": "vw test app",
-        "ownerDescription": "Victor Wang",
-        "privacyURL": "https://dev.colab.duke.edu/#privacy",
-        "permissions": [
-          {
-            "service": "basic",
-            "access": "full"
-          },
-          {
-            "service": "meta:api:write",
-            "access": "full"
-          }
-        ],
-        "appOwners": [
-          "xw72@duke.edu"
-        ],
-        "expiration": 1473319282277
-      }],
+      userApps: Config.getUserApps(),
       activeUserApp: {},
       addingNewApp: false
     }
