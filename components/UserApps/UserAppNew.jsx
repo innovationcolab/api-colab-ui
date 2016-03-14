@@ -1,12 +1,43 @@
 import React, { Component } from 'react'
+import axios from 'axios'
+import Credentials from '../Credentials.jsx'
 
 class UserAppNew extends Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      permissionObj: {}
+    }
+
     this.onSubmit = this.onSubmit.bind(this)
+
     this.updatePermissions = this.updatePermissions.bind(this)
     this.permissions = []
+  }
+
+  componentDidMount() {
+    let ax = axios
+      .get('https://api.colab.duke.edu/meta/v1/docs', {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': Credentials.getClientId()
+        }
+      })
+      .then( (res) => {
+        const metaScopes = res.data.meta.v1.securityDefinitions.duke_auth.scopes
+        for (let key of Object.keys(metaScopes)) {
+          if (key !== 'meta:api:write') {
+            this.state.permissionObj[key] = metaScopes[key]
+          }
+        }
+        this.setState({
+          permissionObj: this.state.permissionObj
+        })
+      })
+      .catch( (res) => {
+        console.error(res)
+      })
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -29,7 +60,7 @@ class UserAppNew extends Component {
   onSubmit(e) {
     e.preventDefault()
 
-    // TODO: run validity check
+    // TODO: run validity check (no security flaw)
 
     const {clientId, redirectURIs, displayName, description, ownerDescription, privacyURL} = this.refs
     const permissions = this.permissions
@@ -48,10 +79,7 @@ class UserAppNew extends Component {
   }
 
   render() {
-    const permissionObj = {
-      'permission:name': 'Permission_Description',
-      'permission:another': 'Permission_Description_Another'
-    }
+    const permissionObj = this.state.permissionObj
     return (
       <form onSubmit={this.onSubmit}>
         <input type="text" placeholder="Client ID" required ref="clientId" />

@@ -14,6 +14,7 @@ class UserAppDetails extends Component {
     return (
       <div>
         <h1>{activeUserApp.displayName}</h1>
+        {/* TODO: */}
       </div>
     )
   }
