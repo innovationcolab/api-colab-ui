@@ -34,7 +34,7 @@ class AuthStore {
    * @param user
    */
   loginSuccess() {
-    location.assign('/dashboard')
+    location.assign('/')
   }
 
   /**

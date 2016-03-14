@@ -7,14 +7,18 @@ import AuthActions from './actions/AuthActions.jsx'
 import AuthStore from './stores/AuthStore.jsx'
 
 function requireAuth(nextState, replace) {
-  if (AuthStore.getState().accessToken !== null) {
-    replace('/dashboard')
-  }
-
+  console.info(nextState)
+  
   if (nextState.location.hash !== '' && AuthStore.getState().accessToken === null) {
     AuthActions.login(nextState.location.hash)
     location.hash = ''
     nextState.location.hash = ''
+    return
+  }
+
+  if (AuthStore.getState().accessToken === null) {
+    replace('/title')
+    return
   }
 }
 
@@ -24,8 +28,8 @@ ReactDOM.render(
   (
     <Router history={browserHistory}>
       <Route path="/">
-        <IndexRoute component={Title} onEnter={requireAuth} />
-        <Route path="dashboard" component={App} />
+        <IndexRoute component={App} onEnter={requireAuth} />
+        <Route path="title" component={Title} />
       </Route>
     </Router>
   ),
