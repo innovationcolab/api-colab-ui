@@ -1,0 +1,94 @@
+/*
+@darkblue: #19273C;
+@lightblue: #4b759b;
+@lightestblue: #73ACD7;
+@orange: #F78B54;
+@green: #72C494;
+@grey: #666;
+*/
+
+h1, h2, h3, h4, h5, h6, p, ul, li, a{
+	font-family: 'Open Sans', sans-serif;
+}
+
+a{
+	text-decoration: none;
+	font-size: 100%;
+	color: #72C494;
+}
+a:hover{
+	cursor: pointer;
+	color: #72C494;
+	text-decoration: none;
+}
+
+.logobox img{
+	width: 100%;
+}
+
+ul#applist{
+	list-style: none;
+	margin: 10px;
+	padding-left: 0px;
+}
+
+#applist li {
+	list-style: none;
+	padding-left: 5px;
+	line-height: 2em;
+	font-size: 16px;
+}
+
+#applist li:before{
+	content: "\2192\2009";
+	color: #72C494;
+	position: relative;
+	bottom: 1px;
+	margin-right: 10px;
+}
+
+#applist li a {
+	text-decoration: none;
+	font-size: 100%;
+	padding: 5px;
+	padding-left: 0;
+	width: 100%;
+	transition-property: all;
+	transition-duration: 0.1s;
+	color: #72C494;
+}
+
+#applist li:hover {
+	background-color: rgba(0,0,0,0.1);
+}
+
+#applist li a:visited {
+		color: #72C494;
+}
+
+.appdetails{
+	margin-top: 40px;
+}
+
+.btn-primary{
+	background-color: #19273C;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-primary:focus, .btn-primary:active:hover{
+	background-color: #4b759b;
+}
+
+.btn-primary:active {
+    background-color: #4b759b;
+    background-image: none;
+    background-image: none;
+    background-image: none;
+    background-repeat: no-repeat;
+    -webkit-background-size: 1000% 1000%;
+    background-size: 1000%;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    }

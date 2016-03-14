@@ -17,10 +17,10 @@ class UserAppContainer extends Component {
     if (addingNewApp) {
       return (
         <div className="row">
-          <div className="col-xs-3">
+          <div className="col-sm-4">
             <UserAppList {...this.props} />
           </div>
-          <div className="col-xs-9">
+          <div className="col-sm-8 appdetails">
             <UserAppNew {...this.props} />
           </div>
         </div>
@@ -30,21 +30,23 @@ class UserAppContainer extends Component {
     if (Object.keys(activeUserApp).length === 0 && JSON.stringify(activeUserApp) === JSON.stringify({})) {
       return (
         <div className="row">
-          <div className="col-xs-3">
+          <div className="col-sm-4">
             <UserAppList {...this.props} />
           </div>
-          <div className="col-xs-9">
-            Select an App to begin.
+          <div className="col-sm-8 appdetails">
+            <h3>Welcome to the App Registration page</h3>
+            <p>Many of the Co-Lab&rsquo;s data services require an API key to use.  To receive an API key, you can register an application here.  That key will allow you to explore the data and use it in your applications.</p>
+            <button className="btn btn-primary" href="#" role="button">Register an App</button>
           </div>
         </div>
       )
     }
     return (
       <div className="row">
-        <div className="col-xs-3">
+        <div className="col-sm-4">
           <UserAppList {...this.props} />
         </div>
-        <div className="col-xs-9">
+        <div className="col-sm-8 appdetails">
           <UserAppDetails {...this.props} />
         </div>
       </div>
