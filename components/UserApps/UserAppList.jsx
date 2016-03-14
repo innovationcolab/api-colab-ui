@@ -34,17 +34,23 @@ class UserAppList extends Component {
     const cancelActive = addingNewApp ? '' : 'hidden'
     return (
       <div>
-        <ul>
-          {this.props.userApps.map( (app) => {
-            return (
-              <UserApp
-                userApp={app}
-                key={app.clientId}
-                {...this.props}
-              />
-            )
-          })}
-        </ul>
+				<div className="logobox">
+					<img src="images/appreglogo.png" alt="app registration logo" />
+				</div>
+				<div className="AppList">
+					<p>Click to view details of your registered apps:</p>
+	        <ul id="applist">
+	          {this.props.userApps.map( (app) => {
+	            return (
+	              <UserApp
+	                userApp={app}
+	                key={app.clientId}
+	                {...this.props}
+	              />
+	            )
+	          })}
+	        </ul>
+        </div>
         <a className={addActive} onClick={this.add}>Add an app</a>
         <a className={cancelActive} onClick={this.cancel}>Cancel</a>
       </div>
