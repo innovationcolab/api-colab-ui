@@ -5,6 +5,10 @@ class Config {
     return 'fSXfFUCAJgJFN6Mn5Flp'
   }
 
+  static getClientId() {
+    return 'vw-test'
+  }
+
   static getUserApps() {
     return JSON.parse(sessionStorage.getItem('userApps')) || []
   }

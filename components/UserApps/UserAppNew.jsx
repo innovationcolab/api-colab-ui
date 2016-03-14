@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import Credentials from '../Credentials.jsx'
 import Config from '../Config.jsx'
 
 class UserAppNew extends Component {
@@ -23,7 +22,7 @@ class UserAppNew extends Component {
         .get('https://api.colab.duke.edu/meta/v1/docs', {
           headers: {
             'Content-Type': 'application/json',
-            'x-api-key': Credentials.getClientId()
+            'x-api-key': Config.getClientId()
           }
         })
         .then( (res) => {

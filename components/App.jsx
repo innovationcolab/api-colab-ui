@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
+import axios from 'axios'
 import UserAppContainer from './UserApps/UserAppContainer.jsx'
 import Config from './Config.jsx'
+import AuthStore from '../stores/AuthStore.jsx'
 
 class App extends Component {
   constructor(props) {
@@ -16,6 +18,26 @@ class App extends Component {
     this.setActiveUserApp = this.setActiveUserApp.bind(this)
     this.submitUserApp = this.submitUserApp.bind(this)
     this.cancelAddUserApp = this.cancelAddUserApp.bind(this)
+  }
+
+  componentDidMount() {
+    axios
+      .get('https://api.colab.duke.edu/meta/v1/apps', {
+        headers: {
+          'x-api-key': Config.getClientId(),
+          'Authorization': 'Bearer ' + AuthStore.getState().accessToken,
+          'Accept': 'application/json'
+        }
+      })
+      .then( res => {
+        const userApps = res.data
+        this.setState({
+          userApps
+        })
+      })
+      .catch( res => {
+        console.error(res)
+      })
   }
 
   shouldComponentUpdate(nextProps, nextState) {
