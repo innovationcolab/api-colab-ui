@@ -4,25 +4,24 @@ import UserAppContainer from './UserApps/UserAppContainer.jsx'
 import Config from './Config.jsx'
 import AuthActions from '../actions/AuthActions.jsx'
 import AuthStore from '../stores/AuthStore.jsx'
+import AppActions from '../actions/AppActions.jsx'
+import AppStore from '../stores/AppStore.jsx'
 
 class App extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      userApps: Config.getUserApps(),
-      activeUserApp: {},
-      addingNewApp: false,
-      error: null
-    }
+    this.state = AppStore.getState()
 
     this.addUserApp = this.addUserApp.bind(this)
     this.setActiveUserApp = this.setActiveUserApp.bind(this)
     this.submitUserApp = this.submitUserApp.bind(this)
     this.cancelAddUserApp = this.cancelAddUserApp.bind(this)
+    this.onChange = this.onChange.bind(this)
   }
 
   componentDidMount() {
+    AppStore.listen(this.onChange)
     axios
       .get('https://api.colab.duke.edu/meta/v1/apps', {
         headers: {
@@ -34,6 +33,7 @@ class App extends Component {
       .then( res => {
         const userApps = res.data
         this.setState({
+          user: AuthStore.getState().user,
           userApps
         })
       })
@@ -49,9 +49,19 @@ class App extends Component {
     return true
   }
 
+  componentWillUnmount() {
+    AppStore.unlisten(this.onChange)
+  }
+
   ////////////////////////////////////////////////////////////
   // Custom Function Implementation
   ////////////////////////////////////////////////////////////
+
+  onChange(state) {
+    this.setState({
+      user: state.user
+    })
+  }
 
   addUserApp() {
     let {userApps, activeUserApp, addingNewApp} = this.state
@@ -79,8 +89,8 @@ class App extends Component {
   }
 
   submitUserApp(newAppReq) {
-    console.info(newAppReq)
-    console.log(JSON.stringify(newAppReq))
+    // console.info(newAppReq)
+    // console.log(JSON.stringify(newAppReq))
     axios
       .post('https://api.colab.duke.edu/meta/v1/apps', newAppReq, {
         headers: {
@@ -119,16 +129,22 @@ class App extends Component {
   // Render
   ////////////////////////////////////////////////////////////
   render() {
+    if (this.state.user !== undefined) {
+      return (
+        <div className="container">
+          <UserAppContainer
+            {...this.state}
+            setActiveUserApp={this.setActiveUserApp}
+            addUserApp={this.addUserApp}
+            submitUserApp={this.submitUserApp}
+            cancelAddUserApp={this.cancelAddUserApp}
+          />
+        </div>
+      )
+    }
     return (
-      <div className="container">
-        <UserAppContainer
-          {...this.state}
-          setActiveUserApp={this.setActiveUserApp}
-          addUserApp={this.addUserApp}
-          submitUserApp={this.submitUserApp}
-          cancelAddUserApp={this.cancelAddUserApp}
-        />
-      </div>
+      <p>rendering</p>
+      // TODO: prettier rendering page
     )
   }
 }

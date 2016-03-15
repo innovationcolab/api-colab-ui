@@ -2,6 +2,7 @@ import alt from '../alt'
 import axios from 'axios'
 import querystring from 'querystring'
 import AuthActions from '../actions/AuthActions.jsx'
+import AppActions from '../actions/AppActions.jsx'
 import Config from '../components/Config.jsx'
 
 class AuthStore {
@@ -10,6 +11,7 @@ class AuthStore {
 
     this.accessToken = null
     this.error = null
+    this.user = null
   }
 
   /**
@@ -33,7 +35,28 @@ class AuthStore {
    * @param user
    */
   loginSuccess() {
-    location.assign('/')
+    axios
+      .get('https://api.colab.duke.edu/identity/v1/', {
+        headers: {
+          'x-api-key': Config.getClientId(),
+          'Authorization': 'Bearer ' + this.accessToken,
+          'Accept': 'application/json'
+        }
+      })
+      .then( res => {
+        let user = res.data
+        user = {
+          lastName: user.lastName,
+          firstName: user.firstName,
+          nickname: user.nickname
+        }
+        this.setState({ user })
+        localStorage.setItem('user', JSON.stringify(user))
+        AppActions.refreshUser(user)
+      })
+      .catch( res => {
+        console.error(res)
+      })
   }
 
   /**
@@ -49,9 +72,10 @@ class AuthStore {
    */
   onLocalLogin() {
     let accessToken = localStorage.getItem('access_token')
+    let user = JSON.parse(localStorage.getItem('user'))
 
-    if (accessToken) {
-      this.saveTokens({access_token: accessToken})
+    if (accessToken && user) {
+      this.saveTokens({access_token: accessToken, user})
     }
   }
 
@@ -68,9 +92,16 @@ class AuthStore {
    * @param params
    */
   saveTokens(params) {
-    const {access_token} = params
+    const {access_token, user} = params
     localStorage.setItem('access_token', access_token)
-    this.setState({ accessToken: access_token, error: null})
+    this.setState({ accessToken: access_token, error: null, user})
+  }
+
+  onLogout() {
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('user')
+
+    location.assign('/')
   }
 }
 

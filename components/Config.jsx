@@ -30,7 +30,7 @@ class Config {
       response_type: 'token',
       redirect_uri: 'http://localhost:3001',
       client_id: 'vw-test',
-      scope: 'meta:apps:write meta:apps:read oauth_registrations',
+      scope: 'meta:apps:write meta:apps:read oauth_registrations identity:netid:read',
       state: '842867'
     })
   }
