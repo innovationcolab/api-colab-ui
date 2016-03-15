@@ -38,3 +38,5 @@ bundle.js
 
 # Credentials
 components/Credentials.jsx
+
+.vscode/
