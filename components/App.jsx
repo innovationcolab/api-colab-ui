@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
+import axios from 'axios'
 import UserAppContainer from './UserApps/UserAppContainer.jsx'
 import Config from './Config.jsx'
+import AuthActions from '../actions/AuthActions.jsx'
+import AuthStore from '../stores/AuthStore.jsx'
 
 class App extends Component {
   constructor(props) {
@@ -9,13 +12,37 @@ class App extends Component {
     this.state = {
       userApps: Config.getUserApps(),
       activeUserApp: {},
-      addingNewApp: false
+      addingNewApp: false,
+      error: null
     }
 
     this.addUserApp = this.addUserApp.bind(this)
     this.setActiveUserApp = this.setActiveUserApp.bind(this)
     this.submitUserApp = this.submitUserApp.bind(this)
     this.cancelAddUserApp = this.cancelAddUserApp.bind(this)
+  }
+
+  componentDidMount() {
+    axios
+      .get('https://api.colab.duke.edu/meta/v1/apps', {
+        headers: {
+          'x-api-key': Config.getClientId(),
+          'Authorization': 'Bearer ' + AuthStore.getState().accessToken,
+          'Accept': 'application/json'
+        }
+      })
+      .then( res => {
+        const userApps = res.data
+        this.setState({
+          userApps
+        })
+      })
+      .catch( res => {
+        console.error(res)
+        if (res.status === 401 && res.data.error === 'Thrown out by the AuthManager: Couldn\'t determine scopes for this token.') {
+          AuthActions.reInit()
+        }
+      })
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -52,7 +79,39 @@ class App extends Component {
   }
 
   submitUserApp(newAppReq) {
-    // TODO: make HTTPS request
+    console.info(newAppReq)
+    console.log(JSON.stringify(newAppReq))
+    axios
+      .post('https://api.colab.duke.edu/meta/v1/apps', {
+        headers: {
+          'x-api-key': Config.getClientId(),
+          'Authorization': 'Bearer ' + AuthStore.getState().accessToken,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        data: newAppReq
+      })
+      .then( res => {
+        console.info(res)
+
+        let {userApps, activeUserApp, addingNewApp} = this.state
+        userApps.push(res.data)
+        activeUserApp = res.data
+        addingNewApp = false
+        this.setState({
+          userApps,
+          activeUserApp
+        })
+      })
+      .catch( res => {
+        console.error(res)
+
+        let {error} = this.state
+        error = res.data
+        this.setState({
+          error
+        })
+      })
   }
 
   ////////////////////////////////////////////////////////////
