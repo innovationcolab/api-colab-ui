@@ -27,11 +27,9 @@ class UserAppNew extends Component {
           }
         })
         .then( (res) => {
-          const metaScopes = res.data.meta.v1.securityDefinitions.duke_auth.scopes
-          for (let key of Object.keys(metaScopes)) {
-            if (key !== 'meta:api:write') {
-              this.state.permissionObj[key] = metaScopes[key]
-            }
+          const identityScopes = res.data.identity.v1.securityDefinitions.duke_auth.scopes
+          for (let key of Object.keys(identityScopes)) {
+            this.state.permissionObj[key] = identityScopes[key]
           }
           this.setState({
             permissionObj: this.state.permissionObj
