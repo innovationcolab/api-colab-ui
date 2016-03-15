@@ -5,7 +5,7 @@ class AuthActions {
     this.generateActions(
       'login',
       'localLogin',
-      'refreshToken',
+      'reInit',
       'logout'
     )
   }

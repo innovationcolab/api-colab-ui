@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import axios from 'axios'
 import UserAppContainer from './UserApps/UserAppContainer.jsx'
 import Config from './Config.jsx'
+import AuthActions from '../actions/AuthActions.jsx'
 import AuthStore from '../stores/AuthStore.jsx'
 
 class App extends Component {
@@ -11,7 +12,8 @@ class App extends Component {
     this.state = {
       userApps: Config.getUserApps(),
       activeUserApp: {},
-      addingNewApp: false
+      addingNewApp: false,
+      error: null
     }
 
     this.addUserApp = this.addUserApp.bind(this)
@@ -37,6 +39,9 @@ class App extends Component {
       })
       .catch( res => {
         console.error(res)
+        if (res.status === 401 && res.data.error === 'Thrown out by the AuthManager: Couldn\'t determine scopes for this token.') {
+          AuthActions.reInit()
+        }
       })
   }
 
@@ -74,7 +79,35 @@ class App extends Component {
   }
 
   submitUserApp(newAppReq) {
-    // TODO: make HTTPS request
+    axios
+      .post('https://api.colab.duke.edu/meta/v1/apps', {
+        headers: {
+          'x-api-key': Config.getClientId(),
+          'Authorization': 'Bearer ' + AuthStore.getState().accessToken,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then( res => {
+        console.info(res)
+
+        // let {userApps, activeUserApp} = this.state
+        // userApps.push(res.data)
+        // activeUserApp = res.data
+        // this.setState({
+        //   userApps,
+        //   activeUserApp
+        // })
+      })
+      .catch( res => {
+        console.error(res)
+
+        let {error} = this.state
+        error = res.data
+        this.setState({
+          error
+        })
+      })
   }
 
   ////////////////////////////////////////////////////////////

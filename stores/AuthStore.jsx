@@ -56,6 +56,14 @@ class AuthStore {
   }
 
   /**
+   * Try to re authenticate user
+   */
+  onReInit() {
+    localStorage.removeItem('access_token')
+    location.assign('https://oauth.oit.duke.edu/oauth/authorize.php' + '?' + Config.getQueryString())
+  }
+
+  /**
    * Save tokens in local storage and automatically add token within request
    * @param params
    */
