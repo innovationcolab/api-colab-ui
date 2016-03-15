@@ -57,7 +57,7 @@ class App extends Component {
     let {userApps, activeUserApp, addingNewApp} = this.state
     activeUserApp = {
       clientId: Config.getNewAppId(),
-      displayName: 'A New App'
+      displayName: ''
     }
     userApps.push(activeUserApp)
     addingNewApp = true
@@ -94,6 +94,7 @@ class App extends Component {
         console.info(res)
 
         let {userApps, activeUserApp, addingNewApp} = this.state
+        userApps.pop()
         userApps.push(res.data)
         activeUserApp = res.data
         addingNewApp = false
