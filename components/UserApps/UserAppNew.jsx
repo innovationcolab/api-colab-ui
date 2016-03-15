@@ -121,11 +121,20 @@ class UserAppNew extends Component {
           )
         })}
 	      <form onSubmit={this.onSubmit} className="form-horizontal">
+
+          <div className="form-group">
+            <label htmlFor="displayName" className="col-sm-3 control-label">App Name</label>
+            <div className="col-sm-8">
+              <input className="col-sm-12" type="text" required ref="displayName" aria-describedby="displayNameHelp"/>
+              <span id="displayNameHelp" className="help-block">The name of your application</span>
+            </div>
+          </div>
+
 	      	<div className="form-group">
 		        <label htmlFor="clientId" className="col-sm-3 control-label">Client ID</label>
 		        <div className="col-sm-8">
 		        	<input className="col-sm-12" type="text" required ref="clientId" aria-describedby="ClientIDHelp"/>
-							<span id="ClientIDHelp" className="help-block">Here's where we describe what a Client ID is.</span>
+							<span id="ClientIDHelp" className="help-block">This is a simplified version of your app name, without spaces or odd characters.</span>
 		        </div>
 	        </div>
 
@@ -133,23 +142,15 @@ class UserAppNew extends Component {
 		        <label htmlFor="redirectURIs" className="col-sm-3 control-label">Redirect URIs <br />(Comma Separated)</label>
 		        <div className="col-sm-8">
 		        	<input className="col-sm-12" type="text" ref="redirectURIs" aria-describedby="ClientIDHelp" required />
-							<span id="RedirectURIsHelp" className="help-block">Here's where we describe what a Redirect URI is.</span>
+							<span id="RedirectURIsHelp" className="help-block">This is where the OAuth system redirects a user after authentication.  Please use http(s):// in your URI above.</span>
 			      </div>
 		      </div>
 
 		      <div className="form-group">
-						<label htmlFor="displayName" className="col-sm-3 control-label">Display Name</label>
-						<div className="col-sm-8">
-			        <input className="col-sm-12" type="text" required ref="displayName" aria-describedby="displayNameHelp"/>
-			        <span id="displayNameHelp" className="help-block">What is a display name is that like my name or the name of the app or something else?</span>
-						</div>
-		      </div>
-
-		      <div className="form-group">
-						<label htmlFor="description" className="col-sm-3 control-label">Description</label>
+						<label htmlFor="description" className="col-sm-3 control-label">App Description</label>
 						<div className="col-sm-8">
 			        <textarea className="col-sm-12" rows="2" required ref="description" aria-describedby="descriptionHelp"/>
-			        <span id="descriptionHelp" className="help-block">What are you doing with the app?  Who will use it? What data are you accessing?</span>
+			        <span id="descriptionHelp" className="help-block">Tell us a bit about your app and which data sources you're planning to use.</span>
 						</div>
 		      </div>
 
@@ -157,7 +158,7 @@ class UserAppNew extends Component {
 						<label htmlFor="ownerDescription" className="col-sm-3 control-label">Owner Description</label>
 						<div className="col-sm-8">
 			        <textarea className="col-sm-12" rows="2" required ref="ownerDescription" aria-describedby="ownerDescriptionHelp"/>
-			        <span id="ownerDescriptionHelp" className="help-block">I dont even know what this means?</span>
+			        <span id="ownerDescriptionHelp" className="help-block">Who you are / what group this project is for.</span>
 						</div>
 		      </div>
 
