@@ -7,7 +7,8 @@ class UserAppNew extends Component {
     super(props)
 
     this.state = {
-      permissionObj: Config.getPermissionObj()
+      permissionObj: Config.getPermissionObj(),
+      validationErrors: []
     }
 
     this.onSubmit = this.onSubmit.bind(this)
@@ -63,30 +64,62 @@ class UserAppNew extends Component {
   onSubmit(e) {
     e.preventDefault()
 
-    // TODO: run validity check (no security flaw)
+    let {clientId, redirectURIs, displayName, description, ownerDescription, privacyURL} = this.refs
 
-    const {clientId, redirectURIs, displayName, description, ownerDescription, privacyURL} = this.refs
+    clientId = clientId.value
+    redirectURIs = redirectURIs.value
+    displayName = displayName.value
+    description = description.value
+    ownerDescription = ownerDescription.value
+    privacyURL = privacyURL.value
+
     const permissions = this.permissions
     const {submitUserApp} = this.props
-    activeUserAppReq = {
-      clientId,
-      redirectURIs,
-      displayName,
-      description,
-      ownerDescription,
-      privacyURL,
-      permissions
+    redirectURIs = redirectURIs.split(/[ ,]+/)
+
+    // run validity check (no security flaw)
+    let {validationErrors} = this.state
+    validationErrors = []
+    for (let uri of redirectURIs) {
+      if (!(Config.getURLRegex().test(uri) || Config.getLocalhostRegex().test(uri))) {
+        validationErrors.push({
+          'title': uri,
+          'reason': 'Not a valid URI'
+        })
+      }
     }
 
-    submitUserApp(activeUserAppReq)
+    this.setState({
+      validationErrors
+    })
+
+    if (validationErrors.length === 0) {
+      const activeUserAppReq = {
+        clientId,
+        redirectURIs,
+        displayName,
+        description,
+        ownerDescription,
+        privacyURL,
+        permissions
+      }
+
+      submitUserApp(activeUserAppReq)
+    }
   }
 
   render() {
     const permissionObj = this.state.permissionObj
     return (
-
-
       <div className="newAppForm">
+        {this.state.validationErrors.map( err => {
+          return (
+            <div>
+              <h3>{err.title}</h3>
+              <p>{err.reason}</p>
+            </div>
+          )
+        })}
 	      <form onSubmit={this.onSubmit} className="form-horizontal">
 	      	<div className="form-group">
 		        <label htmlFor="clientId" className="col-sm-3 control-label">Client ID</label>

@@ -79,6 +79,8 @@ class App extends Component {
   }
 
   submitUserApp(newAppReq) {
+    console.info(newAppReq)
+    console.log(JSON.stringify(newAppReq))
     axios
       .post('https://api.colab.duke.edu/meta/v1/apps', {
         headers: {
@@ -86,18 +88,20 @@ class App extends Component {
           'Authorization': 'Bearer ' + AuthStore.getState().accessToken,
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        }
+        },
+        data: newAppReq
       })
       .then( res => {
         console.info(res)
 
-        // let {userApps, activeUserApp} = this.state
-        // userApps.push(res.data)
-        // activeUserApp = res.data
-        // this.setState({
-        //   userApps,
-        //   activeUserApp
-        // })
+        let {userApps, activeUserApp, addingNewApp} = this.state
+        userApps.push(res.data)
+        activeUserApp = res.data
+        addingNewApp = false
+        this.setState({
+          userApps,
+          activeUserApp
+        })
       })
       .catch( res => {
         console.error(res)
