@@ -17,7 +17,7 @@ class UserApp extends Component {
   onClick(e) {
     e.preventDefault()
 
-    AppActions.setActiveUserApp(userApp)
+    AppActions.setActiveUserApp(this.props.userApp)
   }
 
   render() {

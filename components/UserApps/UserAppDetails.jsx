@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import AppStore from '../../stores/AppStore.jsx'
 
 class UserAppDetails extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class UserAppDetails extends Component {
   }
 
   render() {
-    const {activeUserApp} = this.props
+    const {activeUserApp} = AppStore.getState()
     return (
       <div>
         <h1>{activeUserApp.displayName}</h1>
@@ -19,10 +20,6 @@ class UserAppDetails extends Component {
       </div>
     )
   }
-}
-
-UserAppDetails.propTypes = {
-  activeUserApp: React.PropTypes.object.isRequired
 }
 
 export default UserAppDetails
