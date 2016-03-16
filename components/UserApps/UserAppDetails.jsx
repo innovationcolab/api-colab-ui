@@ -58,7 +58,7 @@ class UserAppDetails extends Component {
             <div className="col-sm-9 description">
                     {activeUserApp.permissions.map( (perm) => {
                         return(
-                                <p>service: {perm.service}</p> 
+                                <p>{perm.service}</p> 
                         )
                     })}
             </div>
