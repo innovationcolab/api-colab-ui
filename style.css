@@ -74,8 +74,12 @@ ul#applist{
 	background-color: rgba(0,0,0,0.1);
 }
 
+#applist .active a {
+	color: #4b759b;
+}
+
 #applist li a:visited {
-		color: #72C494;
+	color: #72C494;
 }
 
 .appdetails{
@@ -109,45 +113,45 @@ ul#applist{
     -webkit-box-shadow: none;
     box-shadow: none;
     }
-    
+
 .newAppForm{
 	margin-top: 30px;
 }
-    
+
 textarea, textarea.form-control, input.form-control, input[type=text], input[type=password], input[type=email], input[type=number], [type=text].form-control, [type=password].form-control, [type=email].form-control, [type=tel].form-control, [contenteditable].form-control{
 	 padding: 7px;
  }
- 
+
 .newAppForm .control-label{
 	 padding-top: 9px;
  }
- 
+
 .newAppForm .btn-primary{
 	margin-top: 30px;
 }
- 
+
 input[type="checkbox"]:checked:after, .checkbox input[type="checkbox"]:checked:after, .checkbox-inline input[type="checkbox"]:checked:after{
 	 background-color: #4b759b;
 	 border-color: #4b759b;
  }
- 
+
 textarea, textarea.form-control, input.form-control, input[type=text], input[type=password], input[type=email], input[type=number], [type=text].form-control, [type=password].form-control, [type=email].form-control, [type=tel].form-control, [contenteditable].form-control{
 	box-shadow: none;
 	-webkit-box-shadow: none;
 	border: 1px solid #19273C;
 	border-radius: 2px;
-	
+
 }
- 
+
 .control-label{
 	font-size: 16px;
 	font-weight: 600;
 }
- 
+
 .help-block{
 	color: #4b759b;
 	}
-    
+
 .appDetails h3{
     margin-bottom: 20px;
 }

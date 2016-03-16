@@ -45,7 +45,7 @@ class AppStore {
         convertedClientId += '-';
       }
     }
-    const { activeUserApp, userApps } = this
+    const { activeUserApp, userApps } = this;
     activeUserApp.clientId = userApps[userApps.length - 1].clientId = convertedClientId;
     this.setState({
       activeUserApp,
