@@ -101,6 +101,7 @@ class UserAppDetails extends Component {
           </div>
         </div>
         <div className="row">
+
           <div className="col-sm-3 title">
             <p>Permissions</p>
           </div>
