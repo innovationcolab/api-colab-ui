@@ -1,4 +1,4 @@
-import alt from '../alt'
+import alt from '../alt';
 
 class AuthActions {
   constructor() {
@@ -7,8 +7,8 @@ class AuthActions {
       'localLogin',
       'reInit',
       'logout'
-    )
+    );
   }
 }
 
-export default alt.createActions(AuthActions)
+export default alt.createActions(AuthActions);

@@ -1,26 +1,26 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './components/App.jsx'
-import Title from './components/Title.jsx'
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-import AuthActions from './actions/AuthActions.jsx'
-import AuthStore from './stores/AuthStore.jsx'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App.jsx';
+import Title from './components/Title.jsx';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import AuthActions from './actions/AuthActions.jsx';
+import AuthStore from './stores/AuthStore.jsx';
 
 function requireAuth(nextState, replace) {
   if (nextState.location.hash !== '' && AuthStore.getState().accessToken === null) {
-    AuthActions.login(nextState.location.hash)
-    location.hash = ''
-    nextState.location.hash = ''
-    return
+    AuthActions.login(nextState.location.hash);
+    location.hash = '';
+    replace('/');
+    return;
   }
 
   if (AuthStore.getState().accessToken === null) {
-    replace('/title')
-    return
+    replace('/title');
+    return;
   }
 }
 
-AuthActions.localLogin()
+AuthActions.localLogin();
 
 ReactDOM.render(
   (
@@ -32,4 +32,4 @@ ReactDOM.render(
     </Router>
   ),
   document.getElementById('root')
-)
+);

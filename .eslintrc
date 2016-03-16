@@ -8,19 +8,9 @@
   "plugins": [
     "react"
   ],
-  rules: {
-    'react/no-multi-comp': 1,
-    'react/prefer-es6-class': 1,
-    'react/prefer-stateless-function': 1,
-    'react/jsx-pascal-case': 1,
-    'react/jsx-closing-bracket-location': 1,
-    'jsx-quotes': 1,
-    'react/jsx-boolean-value': 1,
-    'react/wrap-multilines': 1,
-    'react/self-closing-comp': 1,
-    'react/jsx-closing-bracket-location': 1,
-    'react/jsx-no-bind': 1,
-    'react/sort-comp': 1,
-    'react/no-is-mounted': 1
+  "extends": "airbnb",
+  "rules": {
+    "max-len": 0,
+    "arrow-body-style": [2, "always"]
   }
 }

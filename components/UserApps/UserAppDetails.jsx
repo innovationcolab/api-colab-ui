@@ -1,16 +1,13 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react';
+import AppStore from '../../stores/AppStore.jsx';
 
 class UserAppDetails extends Component {
   constructor(props) {
-    super(props)
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return true
+    super(props);
   }
 
   render() {
-    const {activeUserApp} = this.props
+    const { activeUserApp } = AppStore.getState();
     return (
       <div className="appDetails">
         <h3>App Details</h3>
@@ -67,12 +64,8 @@ class UserAppDetails extends Component {
             </div>
         </div>       
       </div>
-    )
+    );
   }
 }
 
-UserAppDetails.propTypes = {
-  activeUserApp: React.PropTypes.object.isRequired
-}
-
-export default UserAppDetails
+export default UserAppDetails;
