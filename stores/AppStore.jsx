@@ -67,6 +67,28 @@ class AppStore {
     this.setState({userApps, activeUserApp, addingNewApp})
   }
 
+  onDeleteUserApp(staleApp) {
+    axios
+      .delete('https://api.colab.duke.edu/meta/v1/apps', staleApp, {
+        headers: {
+          'x-api-key': Config.getClientId(),
+          'Authorization': 'Bearer ' + AuthStore.getState().accessToken,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then( res => {
+        let {userApps, activeUserApp} = this
+        userApps = userApps.filter( (item) => {
+          item !== staleApp
+        })
+        activeUserApp = {}
+      })
+      .catch( res => {
+        console.error(res)
+      })
+  }
+
   onCancelAddUserApp() {
     let {userApps, activeUserApp, addingNewApp} = this
     activeUserApp = {}
@@ -96,7 +118,7 @@ class AppStore {
       .then( res => {
         console.info(res)
 
-        let {userApps, activeUserApp, addingNewApp} = this.state
+        let {userApps, activeUserApp, addingNewApp} = this
         userApps.pop()
         userApps.push(res.data)
         activeUserApp = res.data
@@ -110,7 +132,7 @@ class AppStore {
       .catch( res => {
         console.error(res)
 
-        let {error} = this.state
+        let {error} = this
         error = res.data
         this.setState({
           error

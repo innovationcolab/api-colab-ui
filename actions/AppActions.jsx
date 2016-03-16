@@ -7,6 +7,7 @@ class AppActions {
       'refreshNewAppName',
       'syncClientId',
       'addUserApp',
+      'deleteUserApp',
       'setActiveUserApp',
       'submitUserApp',
       'cancelAddUserApp',
