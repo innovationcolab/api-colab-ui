@@ -1,17 +1,17 @@
-import alt from '../alt'
-import axios from 'axios'
-import querystring from 'querystring'
-import AuthActions from '../actions/AuthActions.jsx'
-import AppActions from '../actions/AppActions.jsx'
-import Config from '../components/Config.jsx'
+import alt from '../alt';
+import axios from 'axios';
+import querystring from 'querystring';
+import AuthActions from '../actions/AuthActions.jsx';
+import AppActions from '../actions/AppActions.jsx';
+import Config from '../components/Config.jsx';
 
 class AuthStore {
   constructor() {
     this.bindActions(AuthActions)
 
-    this.accessToken = null
-    this.error = null
-    this.user = null
+    this.accessToken = null;
+    this.error = null;
+    this.user = null;
   }
 
   /**
@@ -19,15 +19,15 @@ class AuthStore {
    * @param hash
    */
   onLogin(hash) {
-    const paramObj = querystring.parse(hash.slice(1, hash.length))
+    const paramObj = querystring.parse(hash.slice(1, hash.length));
 
     if (paramObj.state !== Config.getState()) {
-      console.error('state mismatch')
-      this.setState({ accessToken: null, error: 'state mismatch'})
-      return
+      console.error('state mismatch');
+      this.setState({ accessToken: null, error: 'state mismatch'});
+      return;
     }
-    this.saveTokens(paramObj)
-    this.loginSuccess()
+    this.saveTokens(paramObj);
+    this.loginSuccess();
   }
 
   /**
@@ -39,24 +39,24 @@ class AuthStore {
       .get('https://api.colab.duke.edu/identity/v1/', {
         headers: {
           'x-api-key': Config.getClientId(),
-          'Authorization': 'Bearer ' + this.accessToken,
-          'Accept': 'application/json'
-        }
+          Authorization: `Bearer ${this.accessToken}`,
+          Accept: 'application/json',
+        },
       })
-      .then( res => {
-        let user = res.data
+      .then(res => {
+        let user = res.data;
         user = {
           lastName: user.lastName,
           firstName: user.firstName,
-          nickname: user.nickname
-        }
-        this.setState({ user })
-        localStorage.setItem('user', JSON.stringify(user))
-        AppActions.refreshUser(user)
+          nickname: user.nickname,
+        };
+        this.setState({ user });
+        localStorage.setItem('user', JSON.stringify(user));
+        AppActions.refreshUser(user);
       })
-      .catch( res => {
-        console.error(res)
-      })
+      .catch(res => {
+        console.error(res);
+      });
   }
 
   /**
@@ -64,18 +64,18 @@ class AuthStore {
    * @param response
    */
   loginError(response) {
-    this.setState({ accessToken: null, error: response.data.error_description})
+    this.setState({ accessToken: null, error: response.data.error_description });
   }
 
   /**
    * Try to connect user from local storage
    */
   onLocalLogin() {
-    let accessToken = localStorage.getItem('access_token')
-    let user = JSON.parse(localStorage.getItem('user'))
+    const accessToken = localStorage.getItem('access_token');
+    const user = JSON.parse(localStorage.getItem('user'));
 
     if (accessToken && user) {
-      this.saveTokens({access_token: accessToken, user})
+      this.saveTokens({ access_token: accessToken, user });
     }
   }
 
@@ -83,8 +83,8 @@ class AuthStore {
    * Try to re authenticate user
    */
   onReInit() {
-    localStorage.removeItem('access_token')
-    location.assign('https://oauth.oit.duke.edu/oauth/authorize.php' + '?' + Config.getQueryString())
+    localStorage.removeItem('access_token');
+    location.assign(`https://oauth.oit.duke.edu/oauth/authorize.php?${Config.getQueryString()}`);
   }
 
   /**
@@ -92,17 +92,17 @@ class AuthStore {
    * @param params
    */
   saveTokens(params) {
-    const {access_token, user} = params
-    localStorage.setItem('access_token', access_token)
-    this.setState({ accessToken: access_token, error: null, user})
+    const { access_token, user } = params;
+    localStorage.setItem('access_token', access_token);
+    this.setState({ accessToken: access_token, error: null, user });
   }
 
   onLogout() {
-    localStorage.removeItem('access_token')
-    localStorage.removeItem('user')
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user');
 
-    location.assign('/')
+    location.assign('/');
   }
 }
 
-export default alt.createStore(AuthStore, 'AuthStore')
+export default alt.createStore(AuthStore, 'AuthStore');

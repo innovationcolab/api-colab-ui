@@ -1,4 +1,4 @@
-import alt from '../alt'
+import alt from '../alt';
 
 class AppActions {
   constructor() {
@@ -13,8 +13,8 @@ class AppActions {
       'cancelAddUserApp',
       'inputChange',
       'getUserApps'
-    )
+    );
   }
 }
 
-export default alt.createActions(AppActions)
+export default alt.createActions(AppActions);

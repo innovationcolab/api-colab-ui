@@ -1,26 +1,22 @@
-import React, {Component} from 'react'
-import AppActions from '../../actions/AppActions.jsx'
-import AppStore from '../../stores/AppStore.jsx'
-import UserAppList from './UserAppList.jsx'
-import UserAppDetails from './UserAppDetails.jsx'
-import UserAppNew from './UserAppNew.jsx'
-import UserAppBanner from './UserAppBanner.jsx'
+import React, { Component } from 'react';
+import AppActions from '../../actions/AppActions.jsx';
+import AppStore from '../../stores/AppStore.jsx';
+import UserAppList from './UserAppList.jsx';
+import UserAppDetails from './UserAppDetails.jsx';
+import UserAppNew from './UserAppNew.jsx';
+import UserAppBanner from './UserAppBanner.jsx';
 
 class UserAppContainer extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.onClick = this.onClick.bind(this)
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return true
+    this.onClick = this.onClick.bind(this);
   }
 
   onClick(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    AppActions.addUserApp()
+    AppActions.addUserApp();
   }
 
   render() {
@@ -32,13 +28,13 @@ class UserAppContainer extends Component {
           </div>
           <div className="col-sm-8 appdetails">
             <UserAppBanner />
-	          <h3>Register a New App</h3>
+            <h3>Register a New App</h3>
             <UserAppNew />
           </div>
         </div>
-      )
+      );
     }
-    const {activeUserApp, userApps} = AppStore.getState()
+    const { activeUserApp, userApps } = AppStore.getState();
     if (userApps.length === 0) {
       return (
         <div className="row">
@@ -52,7 +48,7 @@ class UserAppContainer extends Component {
             <button className="btn btn-primary" onClick={this.onClick} role="button">Register an App</button>
           </div>
         </div>
-      )
+      );
     }
     if (Object.keys(activeUserApp).length === 0 && JSON.stringify(activeUserApp) === JSON.stringify({})) {
       return (
@@ -65,7 +61,7 @@ class UserAppContainer extends Component {
             <h3>Select an App to Begin</h3>
           </div>
         </div>
-      )
+      );
     }
     return (
       <div className="row">
@@ -77,8 +73,8 @@ class UserAppContainer extends Component {
           <UserAppDetails />
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default UserAppContainer
+export default UserAppContainer;
