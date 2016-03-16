@@ -39,7 +39,9 @@ class AppStore {
     }
     let convertedClientId = '';
     for (const c of name) {
-      if (/^[a-z0-9-]+$/i.test(c)) {
+      if (/^[A-Z]+$/.test(c)) {
+        convertedClientId += c.toLowerCase();
+      } else if (/^[a-z0-9-]+$/i.test(c)) {
         convertedClientId += c;
       } else {
         convertedClientId += '-';
@@ -113,7 +115,7 @@ class AppStore {
     // console.info(newAppReq)
     // console.log(JSON.stringify(newAppReq))
     axios
-      .post('https://api.colab.duke.edu/meta/v1/apps', newAppReq, {
+      .post('https://api.colab.duke.edu/meta/v1/apps', JSON.stringify(newAppReq), {
         headers: {
           'x-api-key': Config.getClientId(),
           Authorization: `Bearer ${AuthStore.getState().accessToken}`,
