@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Config from '../Config.jsx'
+import AppActions from '../../actions/AppActions.jsx'
+import AppStore from '../../stores/AppStore.jsx'
 
 class UserAppNew extends Component {
   constructor(props) {
@@ -12,12 +14,14 @@ class UserAppNew extends Component {
     }
 
     this.onSubmit = this.onSubmit.bind(this)
+    this.onChange = this.onChange.bind(this)
 
     this.updatePermissions = this.updatePermissions.bind(this)
     this.permissions = []
   }
 
   componentDidMount() {
+    this.refs.privacyURL.value = AppStore.getState().activeUserApp.privacyURL
     if (Object.keys(this.state.permissionObj).length === 0 && JSON.stringify(this.state.permissionObj) === JSON.stringify({})) {
       axios
         .get('https://api.colab.duke.edu/meta/v1/docs', {
@@ -59,6 +63,17 @@ class UserAppNew extends Component {
     }
   }
 
+  onChange(e) {
+    switch(e.target) {
+      case this.refs.displayName:
+        AppActions.refreshNewAppName(e.target.value)
+        AppActions.syncClientId(e.target.value)
+        break;
+    }
+    let activeUserApp = AppStore.getState().activeUserApp
+    this.refs.clientId.value = activeUserApp.clientId === Config.getNewAppId() ? '' : activeUserApp.clientId
+  }
+
   onSubmit(e) {
     e.preventDefault()
 
@@ -72,7 +87,6 @@ class UserAppNew extends Component {
     privacyURL = privacyURL.value
 
     const permissions = this.permissions
-    const {submitUserApp} = this.props
     redirectURIs = redirectURIs.split(/[ ,]+/)
 
     // run validity check (no security flaw)
@@ -102,7 +116,7 @@ class UserAppNew extends Component {
         permissions
       }
 
-      submitUserApp(activeUserAppReq)
+      AppActions.submitUserApp(activeUserAppReq)
     }
   }
 
@@ -123,7 +137,7 @@ class UserAppNew extends Component {
           <div className="form-group">
             <label htmlFor="displayName" className="col-sm-3 control-label">App Name</label>
             <div className="col-sm-8">
-              <input className="col-sm-12" type="text" required ref="displayName" aria-describedby="displayNameHelp"/>
+              <input className="col-sm-12" type="text" required ref="displayName" onChange={this.onChange} aria-describedby="displayNameHelp"/>
               <span id="displayNameHelp" className="help-block">The name of your application</span>
             </div>
           </div>
@@ -186,11 +200,6 @@ class UserAppNew extends Component {
       </div>
     )
   }
-}
-
-UserAppNew.propTypes = {
-  activeUserApp: React.PropTypes.object.isRequired,
-  submitUserApp: React.PropTypes.func.isRequired
 }
 
 export default UserAppNew

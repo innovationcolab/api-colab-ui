@@ -42,6 +42,10 @@ class Config {
   static getLocalhostRegex() {
     return /http:\/\/localhost(:[0-9]+)?$/
   }
+
+  static getDefaultPrivacyURL() {
+    return 'https://dev.colab.duke.edu/#privacy'
+  }
 }
 
 export default Config

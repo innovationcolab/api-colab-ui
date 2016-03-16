@@ -1,4 +1,7 @@
 import React, {Component} from 'react'
+import AppActions from '../../actions/AppActions.jsx'
+import AppStore from '../../stores/AppStore.jsx'
+import Config from '../Config.jsx'
 
 class UserApp extends Component {
   constructor(props) {
@@ -8,18 +11,18 @@ class UserApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return false
+    return true
   }
 
   onClick(e) {
     e.preventDefault()
 
-    const {setActiveUserApp, userApp} = this.props
-    setActiveUserApp(userApp)
+    AppActions.setActiveUserApp(userApp)
   }
 
   render() {
-    const {userApp, activeUserApp} = this.props
+    const {userApp} = this.props
+    const {activeUserApp} = AppStore.getState()
     const isActive = userApp === activeUserApp ? 'active' : ''
     return (
       <li className={isActive}>
@@ -32,9 +35,7 @@ class UserApp extends Component {
 }
 
 UserApp.propTypes = {
-  userApp: React.PropTypes.object.isRequired,
-  activeUserApp: React.PropTypes.object.isRequired,
-  setActiveUserApp: React.PropTypes.func.isRequired
+  userApp: React.PropTypes.object.isRequired
 }
 
 export default UserApp

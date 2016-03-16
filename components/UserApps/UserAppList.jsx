@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import { Link } from 'react-router'
+import AppActions from '../../actions/AppActions.jsx'
+import AppStore from '../../stores/AppStore.jsx'
 import UserApp from './UserApp.jsx'
 
 class UserAppList extends Component {
@@ -17,19 +19,17 @@ class UserAppList extends Component {
   add(e) {
     e.preventDefault()
 
-    const {addUserApp} = this.props
-    addUserApp()
+    AppActions.addUserApp()
   }
 
   cancel(e) {
     e.preventDefault()
 
-    const {cancelAddUserApp} = this.props;
-    cancelAddUserApp()
+    AppActions.cancelAddUserApp()
   }
 
   render() {
-    const {addingNewApp} = this.props
+    const {addingNewApp, userApps, activeUserApp} = AppStore.getState()
     const addActive = addingNewApp ? 'hidden' : ''
     const cancelActive = addingNewApp ? '' : 'hidden'
     return (
@@ -40,12 +40,11 @@ class UserAppList extends Component {
 				<div className="AppList">
 					<p>Click to view details of your registered apps:</p>
 	        <ul id="applist">
-	          {this.props.userApps.map( (app) => {
+	          {userApps.map( (app) => {
 	            return (
 	              <UserApp
 	                userApp={app}
 	                key={app.clientId}
-	                {...this.props}
 	              />
 	            )
 	          })}
@@ -56,14 +55,6 @@ class UserAppList extends Component {
       </div>
     )
   }
-}
-
-UserAppList.propTypes = {
-  userApps: React.PropTypes.array.isRequired,
-  activeUserApp: React.PropTypes.object.isRequired,
-  setActiveUserApp: React.PropTypes.func.isRequired,
-  addUserApp: React.PropTypes.func.isRequired,
-  cancelAddUserApp: React.PropTypes.func.isRequired
 }
 
 export default UserAppList

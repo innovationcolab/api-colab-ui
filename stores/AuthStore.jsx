@@ -53,6 +53,7 @@ class AuthStore {
         this.setState({ user })
         localStorage.setItem('user', JSON.stringify(user))
         AppActions.refreshUser(user)
+        location.assign('/')
       })
       .catch( res => {
         console.error(res)

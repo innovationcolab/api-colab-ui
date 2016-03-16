@@ -3,7 +3,15 @@ import alt from '../alt'
 class AppActions {
   constructor() {
     this.generateActions(
-      'refreshUser'
+      'refreshUser',
+      'refreshNewAppName',
+      'syncClientId',
+      'addUserApp',
+      'setActiveUserApp',
+      'submitUserApp',
+      'cancelAddUserApp',
+      'inputChange',
+      'getUserApps'
     )
   }
 }

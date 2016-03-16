@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import AuthActions from '../../actions/AuthActions.jsx'
+import AppStore from '../../stores/AppStore.jsx'
 
 class UserAppBanner extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class UserAppBanner extends Component {
   }
 
   render() {
-    const {user} = this.props
+    const {user} = AppStore.getState()
     const name = user.nickname === undefined ? user.firstName + user.lastName : user.nickname + user.lastName
     return (
       <div>
@@ -28,10 +29,6 @@ class UserAppBanner extends Component {
       </div>
     )
   }
-}
-
-UserAppBanner.propTypes = {
-  user: React.PropTypes.object.isRequired
 }
 
 export default UserAppBanner

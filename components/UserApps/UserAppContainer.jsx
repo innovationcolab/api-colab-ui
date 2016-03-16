@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import AppActions from '../../actions/AppActions.jsx'
+import AppStore from '../../stores/AppStore.jsx'
 import UserAppList from './UserAppList.jsx'
 import UserAppDetails from './UserAppDetails.jsx'
 import UserAppNew from './UserAppNew.jsx'
@@ -18,35 +20,33 @@ class UserAppContainer extends Component {
   onClick(e) {
     e.preventDefault()
 
-    const {addUserApp} = this.props
-    addUserApp()
+    AppActions.addUserApp()
   }
 
   render() {
-    const {addingNewApp} = this.props
-    if (addingNewApp) {
+    if (AppStore.getState().addingNewApp) {
       return (
         <div className="row">
           <div className="col-sm-4">
-            <UserAppList {...this.props} />
+            <UserAppList />
           </div>
           <div className="col-sm-8 appdetails">
-            <UserAppBanner user={this.props.user} />
+            <UserAppBanner />
 	          <h3>Register a New App</h3>
-            <UserAppNew {...this.props} />
+            <UserAppNew />
           </div>
         </div>
       )
     }
-    const {activeUserApp, userApps} = this.props
+    const {activeUserApp, userApps} = AppStore.getState()
     if (userApps.length === 0) {
       return (
         <div className="row">
           <div className="col-sm-4">
-            <UserAppList {...this.props} />
+            <UserAppList />
           </div>
           <div className="col-sm-8 appdetails">
-            <UserAppBanner user={this.props.user} />
+            <UserAppBanner />
             <h3>App Registration for API Keys</h3>
             <p>Many of the Co-Lab&rsquo;s data services require an API key to use.  To receive an API key, you can register an application here.  That key will allow you to explore the data and use it in your applications.</p>
             <button className="btn btn-primary" onClick={this.onClick} role="button">Register an App</button>
@@ -58,10 +58,10 @@ class UserAppContainer extends Component {
       return (
         <div className="row">
           <div className="col-sm-4">
-            <UserAppList {...this.props} />
+            <UserAppList />
           </div>
           <div className="col-sm-8 appdetails">
-            <UserAppBanner user={this.props.user} />
+            <UserAppBanner />
             <h3>Select an App to Begin</h3>
           </div>
         </div>
@@ -70,25 +70,15 @@ class UserAppContainer extends Component {
     return (
       <div className="row">
         <div className="col-sm-4">
-          <UserAppList {...this.props} />
+          <UserAppList />
         </div>
         <div className="col-sm-8 appdetails">
-          <UserAppBanner user={this.props.user} />
-          <UserAppDetails {...this.props} />
+          <UserAppBanner />
+          <UserAppDetails />
         </div>
       </div>
     )
   }
-}
-
-UserAppContainer.propTypes = {
-  user: React.PropTypes.object.isRequired,
-  userApps: React.PropTypes.array.isRequired,
-  activeUserApp: React.PropTypes.object.isRequired,
-  setActiveUserApp: React.PropTypes.func.isRequired,
-  addUserApp: React.PropTypes.func.isRequired,
-  addingNewApp: React.PropTypes.bool.isRequired,
-  cancelAddUserApp: React.PropTypes.func.isRequired
 }
 
 export default UserAppContainer
