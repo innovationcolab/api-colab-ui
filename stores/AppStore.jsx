@@ -69,20 +69,25 @@ class AppStore {
 
   onDeleteUserApp(staleApp) {
     axios
-      .delete('https://api.colab.duke.edu/meta/v1/apps', staleApp, {
+      .delete('https://api.colab.duke.edu/meta/v1/apps', {
         headers: {
           'x-api-key': Config.getClientId(),
           Authorization: `Bearer ${AuthStore.getState().accessToken}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
+        data: staleApp,
       })
-      .then(res => {
+      .then(() => {
         let { userApps, activeUserApp } = this;
         userApps = userApps.filter((item) => {
           return item !== staleApp;
         });
         activeUserApp = {};
+        this.setState({
+          activeUserApp,
+          userApps,
+        });
       })
       .catch(res => {
         console.error(res);
