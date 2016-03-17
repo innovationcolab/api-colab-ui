@@ -13,6 +13,8 @@ class AppStore {
     this.activeUserApp = {};
     this.addingNewApp = false;
     this.error = {};
+    this.showRefreshModal = false;
+    this.showNoRefreshModal = false;
     this.user = undefined;
   }
 
@@ -39,7 +41,9 @@ class AppStore {
     }
     let convertedClientId = '';
     for (const c of name) {
-      if (/^[a-z0-9-]+$/i.test(c)) {
+      if (/^[A-Z]+$/.test(c)) {
+        convertedClientId += c.toLowerCase();
+      } else if (/^[a-z0-9-]+$/i.test(c)) {
         convertedClientId += c;
       } else {
         convertedClientId += '-';
@@ -90,7 +94,7 @@ class AppStore {
         });
       })
       .catch(res => {
-        console.error(res);
+        AppActions.handleError({ type: 'delete_error', body: res });
       });
   }
 
@@ -113,7 +117,7 @@ class AppStore {
     // console.info(newAppReq)
     // console.log(JSON.stringify(newAppReq))
     axios
-      .post('https://api.colab.duke.edu/meta/v1/apps', newAppReq, {
+      .post('https://api.colab.duke.edu/meta/v1/apps', JSON.stringify(newAppReq), {
         headers: {
           'x-api-key': Config.getClientId(),
           Authorization: `Bearer ${AuthStore.getState().accessToken}`,
@@ -122,8 +126,6 @@ class AppStore {
         },
       })
       .then(res => {
-        console.info(res);
-
         const { userApps } = this;
         let { activeUserApp, addingNewApp } = this;
         userApps.pop();
@@ -137,13 +139,7 @@ class AppStore {
         });
       })
       .catch(res => {
-        console.error(res);
-
-        let { error } = this;
-        error = res.data;
-        this.setState({
-          error,
-        });
+        AppActions.handleError({ type: 'submit_error', body: res });
       });
   }
 
@@ -164,11 +160,77 @@ class AppStore {
         });
       })
       .catch(res => {
-        console.error(res);
         if (res.status === 401 && res.data.error === 'Thrown out by the AuthManager: Couldn\'t determine scopes for this token.') {
           AuthActions.reInit();
+        } else {
+          AppActions.handleError({ type: 'list_error', body: res });
         }
       });
+  }
+
+  onHandleError(err) {
+    switch (err.type) {
+      case 'list_error':
+        this.setState({
+          error: {
+            type: 'refresh',
+            msg: 'An error occurred while retrieving your application list. Click the button below to retry.',
+          },
+        });
+        break;
+      case 'identity_error':
+        this.setState({
+          error: {
+            type: 'no_refresh',
+            msg: 'An error occurred while retrieving your identity. Please refresh the page at some other time to retry.',
+          },
+        });
+        break;
+      case 'submit_error':
+        this.setState({
+          error: {
+            type: 'no_refresh',
+            msg: 'An error occurred during submitting your request. Please retry at some other time.',
+          },
+        });
+        break;
+      case 'delete_error':
+        this.setState({
+          error: {
+            type: 'no_refresh',
+            msg: 'An error occurred during deleting your app. Please retry at some other some.',
+          },
+        });
+        break;
+      case 'state_mismatch':
+        this.setState({
+          error: {
+            type: 'refresh',
+            msg: 'An error while retrieving available permissions for the new app. Click the button below to retry.',
+          },
+        });
+        break;
+      default:
+        this.setState({
+          error: {
+            type: 'no_refresh',
+            msg: 'An unknown error has occured',
+          },
+        });
+    }
+
+    const { error } = this.state;
+    if (error.type === 'no_refresh') {
+      this.setState({
+        showRefreshModal: false,
+        showNoRefreshModal: true,
+      });
+    } else {
+      this.setState({
+        showRefreshModal: true,
+        showNoRefreshModal: false,
+      });
+    }
   }
 }
 

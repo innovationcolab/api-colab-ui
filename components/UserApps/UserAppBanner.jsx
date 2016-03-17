@@ -17,7 +17,7 @@ class UserAppBanner extends Component {
 
   render() {
     const { user } = AppStore.getState();
-    const name = user.nickname === undefined ? user.firstName + ' ' + user.lastName : user.nickname + ' ' + user.lastName;
+    const name = user.nickname === undefined ? `${user.firstName} ${user.lastName}` : `${user.nickname} ${user.lastName}`;
     return (
       <div className="user-control">
         <p>Hi, {name}</p>
