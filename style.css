@@ -89,18 +89,38 @@ ul#applist{
 .btn{
 	font-weight: bold;
 	letter-spacing: .03em;
+    -webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .btn-primary{
 	background-color: #19273C;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-
 }
 
 .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-primary:focus, .btn-primary:active:hover{
 	background-color: #4b759b;
 }
+
+.btn-danger{
+    background-color: #F78B54;
+}
+
+.btn-danger:hover, .btn-danger:active, .btn-danger:visited, .btn-danger:focus, .btn-danger:active:hover{
+	background-color: #cb171e;
+}
+
+.btn-danger:active {
+    background-color: #cb171e;
+    background-image: none;
+    background-image: none;
+    background-image: none;
+    background-repeat: no-repeat;
+    -webkit-background-size: 1000% 1000%;
+    background-size: 1000%;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    }
+
 
 .btn-primary:active {
     background-color: #4b759b;
@@ -160,6 +180,10 @@ textarea, textarea.form-control, input.form-control, input[type=text], input[typ
     font-weight: 600;
     font-size: 16px;
     text-align: right;
+}
+
+.appDetails button{
+    margin: 0 20px 20px 0px
 }
 
 .user-control p{

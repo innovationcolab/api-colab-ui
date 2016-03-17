@@ -60,6 +60,7 @@ class UserAppDetails extends Component {
     return (
       <div className="appDetails">
         <h3>App Details</h3>
+        <Button bsStyle="success" onClick={this.onClick}>Explore Co-Lab APIs for this app</Button>
         <div className="row">
           <div className="col-sm-3 title">
             <p>App Name</p>
@@ -113,7 +114,8 @@ class UserAppDetails extends Component {
             })}
           </div>
         </div>
-        <Button bsStyle="primary" onClick={this.onClick}>Delete App</Button>
+        <Button bsStyle="primary" onClick={this.onClick}>Edit App Details</Button>
+        <Button bsStyle="danger" onClick={this.onClick}>Delete App</Button>
         <Modal show={this.state.showModal} onHide={this.closeModal}>
           <Modal.Header closeButton>
             <Modal.Title>Deleting app <strong>{activeUserApp.displayName}</strong>...</Modal.Title>
