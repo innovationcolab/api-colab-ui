@@ -3,6 +3,8 @@ import { Button, Modal } from 'react-bootstrap';
 import UserAppContainer from './UserApps/UserAppContainer.jsx';
 import AppActions from '../actions/AppActions.jsx';
 import AppStore from '../stores/AppStore.jsx';
+import AuthStore from '../stores/AuthStore.jsx';
+import Config from './Config.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +19,9 @@ class App extends Component {
 
   componentDidMount() {
     AppStore.listen(this.onChange);
-    AppActions.getUserApps();
+    if (AuthStore.getState().accessToken && AuthStore.getState().user) {
+      AppActions.getUserApps();
+    }
   }
 
   componentWillUnmount() {
@@ -40,19 +44,18 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.error) {
-      const { error } = this.state;
-      if (error.type === 'no_refresh') {
-        this.setState({
-          showRefreshModal: false,
-          showNoRefreshModal: true,
-        });
-      } else {
-        this.setState({
-          showRefreshModal: true,
-          showNoRefreshModal: false,
-        });
-      }
+    if (AuthStore.getState().accessToken === null) {
+      const url = `https://oauth.oit.duke.edu/oauth/authorize.php?${Config.getQueryString()}`;
+      return (
+        <div className="row">
+          <div className="col-sm-4 col-sm-offset-4 title">
+            <div className="logobox">
+              <img src="images/appreglogo.png" alt="app registration logo" />
+              <a href={url} className="netid-login"> </a>
+            </div>
+          </div>
+        </div>
+      );
     }
     if (this.state.user !== undefined) {
       return (

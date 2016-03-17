@@ -218,6 +218,19 @@ class AppStore {
           },
         });
     }
+
+    const { error } = this.state;
+    if (error.type === 'no_refresh') {
+      this.setState({
+        showRefreshModal: false,
+        showNoRefreshModal: true,
+      });
+    } else {
+      this.setState({
+        showRefreshModal: true,
+        showNoRefreshModal: false,
+      });
+    }
   }
 }
 
