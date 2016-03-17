@@ -184,7 +184,7 @@ textarea, textarea.form-control, input.form-control, input[type=text], input[typ
     text-align: right;
 }
 
-.appDetails button{
+.appDetails .btn{
     margin: 0 20px 20px 0px
 }
 
