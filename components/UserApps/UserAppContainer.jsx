@@ -20,7 +20,7 @@ class UserAppContainer extends Component {
   }
 
   render() {
-    if (AppStore.getState().addingNewApp) {
+    if (AppStore.getState().activeUserApp.newApp) {
       return (
         <div className="row">
           <div className="col-sm-4">

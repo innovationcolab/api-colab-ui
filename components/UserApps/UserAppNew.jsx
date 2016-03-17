@@ -25,7 +25,7 @@ class UserAppNew extends Component {
   }
 
   componentDidMount() {
-    this.refs.privacyURL.value = AppStore.getState().activeUserApp.privacyURL;
+    this.refs.privacyURL.value = AppStore.getState().activeUserApp.privacyURL || Config.getDefaultPrivacyURL();
     if (Object.keys(this.state.permissionObj).length === 0 && JSON.stringify(this.state.permissionObj) === JSON.stringify({})) {
       axios
         .get('https://api.colab.duke.edu/meta/v1/docs', {
@@ -51,29 +51,45 @@ class UserAppNew extends Component {
   }
 
   onChange(e) {
+    const { activeUserApp } = AppStore.getState();
     switch (e.target) {
       case this.refs.displayName:
         AppActions.refreshNewAppName(e.target.value);
         AppActions.syncClientId(e.target.value);
+        this.refs.clientId.value = activeUserApp.clientId;
+        break;
+      case this.refs.clientId:
+        activeUserApp.clientId = this.refs.clientId.value;
+        break;
+      case this.refs.redirectURIs:
+        activeUserApp.redirectURIs = this.refs.redirectURIs.value;
+        break;
+      case this.refs.description:
+        activeUserApp.description = this.refs.description.value;
+        break;
+      case this.refs.ownerDescription:
+        activeUserApp.ownerDescription = this.refs.ownerDescription.value;
+        break;
+      case this.refs.privacyURL:
+        activeUserApp.privacyURL = this.refs.privacyURL.value;
         break;
       default:
         break;
     }
-    const { activeUserApp } = AppStore.getState();
-    this.refs.clientId.value = activeUserApp.clientId === Config.getNewAppId() ? '' : activeUserApp.clientId;
   }
 
   onBlur(e) {
     e.preventDefault();
+    const { activeUserApp } = AppStore.getState();
     switch (e.target) {
       case this.refs.clientId:
-        this.validateClientId(this.refs.clientId.value);
+        this.validateClientId(activeUserApp.clientId);
         break;
       case this.refs.redirectURIs:
         this.validateRedirectURIs(this.refs.redirectURIs.value.split(/[ ,]+/));
         break;
       case this.refs.privacyURL:
-        this.validatePrivacyURL(this.refs.privacyURL.value);
+        this.validatePrivacyURL(activeUserApp.privacyURL);
         break;
       default:
         break;
@@ -83,30 +99,24 @@ class UserAppNew extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    let { clientId, redirectURIs, displayName, description, ownerDescription, privacyURL } = this.refs;
+    let { redirectURIs } = this.refs;
+    const { activeUserApp } = AppStore.getState();
 
-    clientId = clientId.value;
-    redirectURIs = redirectURIs.value;
-    displayName = displayName.value;
-    description = description.value;
-    ownerDescription = ownerDescription.value;
-    privacyURL = privacyURL.value;
-
+    redirectURIs = redirectURIs.value.split(/[ ,]+/);
     const permissions = this.permissions;
-    redirectURIs = redirectURIs.split(/[ ,]+/);
 
-    this.validateClientId(clientId);
+    this.validateClientId(activeUserApp.clientId);
     this.validateRedirectURIs(redirectURIs);
-    this.validatePrivacyURL(privacyURL);
+    this.validatePrivacyURL(activeUserApp.privacyURL);
 
     if (Object.keys(this.state.validationErrors).length === 0) {
       const activeUserAppReq = {
-        clientId,
+        clientId: activeUserApp.clientId,
         redirectURIs,
-        displayName,
-        description,
-        ownerDescription,
-        privacyURL,
+        displayName: activeUserApp.displayName,
+        description: activeUserApp.description,
+        ownerDescription: activeUserApp.ownerDescription,
+        privacyURL: activeUserApp.privacyURL,
         permissions,
       };
 
@@ -182,6 +192,7 @@ class UserAppNew extends Component {
 
   render() {
     const { permissionObj, validationErrors } = this.state;
+    const activeUserApp = AppStore.getState().activeUserApp;
     return (
       <div className="newAppForm">
         {Object.keys(validationErrors).map(errKey => {
@@ -200,7 +211,7 @@ class UserAppNew extends Component {
           <div className="form-group">
             <label htmlFor="displayName" className="col-sm-3 control-label">App Name</label>
             <div className="col-sm-8">
-              <input className="col-sm-12" type="text" required ref="displayName" onChange={this.onChange} aria-describedby="displayNameHelp" />
+              <input className="col-sm-12" type="text" required ref="displayName" value={activeUserApp.displayName} onChange={this.onChange} aria-describedby="displayNameHelp" />
               <span id="displayNameHelp" className="help-block">The name of your application</span>
             </div>
           </div>
@@ -208,7 +219,7 @@ class UserAppNew extends Component {
           <div className={this.state.validationErrors.clientId ? 'form-group has-error has-feedback' : 'form-group'}>
             <label htmlFor="clientId" className="col-sm-3 control-label">Client ID</label>
             <div className="col-sm-8">
-              <input className="col-sm-12" type="text" required onBlur={this.onBlur} ref="clientId" aria-describedby="ClientIDHelp" />
+              <input className="col-sm-12" type="text" required ref="clientId" defaultValue={activeUserApp.clientId === Config.getNewAppId() ? '' : activeUserApp.clientId} onChange={this.onChange} onBlur={this.onBlur} aria-describedby="ClientIDHelp" />
               <span className={this.state.validationErrors.clientId ? 'glyphicon glyphicon-remove form-control-feedback' : 'hidden'} aria-hidden="true" />
               <span id="ClientIDHelp" className="help-block">This is a simplified version of your app name, without spaces or odd characters.</span>
             </div>
@@ -217,7 +228,7 @@ class UserAppNew extends Component {
           <div className={this.state.validationErrors.redirectURIs ? 'form-group has-error has-feedback' : 'form-group'}>
             <label htmlFor="redirectURIs" className="col-sm-3 control-label">Redirect URIs <br />(Comma Separated)</label>
             <div className="col-sm-8">
-              <input className="col-sm-12" type="text" onBlur={this.onBlur} ref="redirectURIs" aria-describedby="ClientIDHelp" required />
+              <input className="col-sm-12" type="text" onBlur={this.onBlur} ref="redirectURIs" defaultValue={activeUserApp.redirectURIs} onChange={this.onChange} aria-describedby="RedirectURIsHelp" required />
               <span className={this.state.validationErrors.redirectURIs ? 'glyphicon glyphicon-remove form-control-feedback' : 'hidden'} aria-hidden="true" />
               <span id="RedirectURIsHelp" className="help-block">This is where the OAuth system redirects a user after authentication.  Please use http(s):// in your URI above.</span>
             </div>
@@ -226,7 +237,7 @@ class UserAppNew extends Component {
           <div className="form-group">
             <label htmlFor="description" className="col-sm-3 control-label">App Description</label>
             <div className="col-sm-8">
-              <textarea className="col-sm-12" rows="2" required ref="description" aria-describedby="descriptionHelp" />
+              <textarea className="col-sm-12" rows="2" required ref="description" defaultValue={activeUserApp.description} onChange={this.onChange} aria-describedby="descriptionHelp" />
               <span id="descriptionHelp" className="help-block">Tell us a bit about your app and which data sources you're planning to use.</span>
             </div>
           </div>
@@ -234,7 +245,7 @@ class UserAppNew extends Component {
           <div className="form-group">
             <label htmlFor="ownerDescription" className="col-sm-3 control-label">Owner Description</label>
             <div className="col-sm-8">
-              <textarea className="col-sm-12" rows="2" required ref="ownerDescription" aria-describedby="ownerDescriptionHelp" />
+              <textarea className="col-sm-12" rows="2" required ref="ownerDescription" defaultValue={activeUserApp.ownerDescription} onChange={this.onChange} aria-describedby="ownerDescriptionHelp" />
               <span id="ownerDescriptionHelp" className="help-block">Who you are / what group this project is for.</span>
             </div>
           </div>
@@ -242,7 +253,7 @@ class UserAppNew extends Component {
           <div className={this.state.validationErrors.privacyURL ? 'form-group has-error has-feedback' : 'form-group'}>
             <label htmlFor="privacyURL" className="col-sm-3 control-label">Privacy URL</label>
             <div className="col-sm-8">
-              <input className="col-sm-12" type="text" required onBlur={this.onBlur} ref="privacyURL" aria-describedby="privacyURLHelp" />
+              <input className="col-sm-12" type="text" required ref="privacyURL" defaultValue={activeUserApp.privacyURL} onChange={this.onChange} onBlur={this.onBlur} aria-describedby="privacyURLHelp" />
               <span className={this.state.validationErrors.privacyURL ? 'glyphicon glyphicon-remove form-control-feedback' : 'hidden'} aria-hidden="true" />
               <span id="privacyURLHelp" className="help-block">Info about Privacy URL stuffs</span>
             </div>

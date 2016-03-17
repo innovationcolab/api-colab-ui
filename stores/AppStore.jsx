@@ -11,7 +11,7 @@ class AppStore {
 
     this.userApps = Config.getUserApps();
     this.activeUserApp = {};
-    this.addingNewApp = false;
+    this.addingNewApp = false;  // this is used to track cancel/add new app button below the list
     this.error = {};
     this.showRefreshModal = false;
     this.showNoRefreshModal = false;
@@ -64,7 +64,6 @@ class AppStore {
       newApp: true,
       clientId: Config.getNewAppId(),
       displayName: '',
-      privacyURL: Config.getDefaultPrivacyURL(),
     };
     userApps.push(activeUserApp);
     addingNewApp = true;

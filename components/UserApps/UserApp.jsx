@@ -20,7 +20,7 @@ class UserApp extends Component {
     const { activeUserApp } = AppStore.getState();
     const isActive = userApp === activeUserApp ? 'active' : '';
     return (
-      <li className={isActive}>
+      <li className={isActive} onClick={this.onClick}>
         <a onClick={this.onClick}>
           {this.props.userApp.displayName}
         </a>
