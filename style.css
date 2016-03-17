@@ -171,7 +171,9 @@ textarea, textarea.form-control, input.form-control, input[type=text], input[typ
 .help-block{
 	color: #4b759b;
 	}
-
+.appDetails{
+    margin-bottom: 40px;
+}
 .appDetails h3{
     margin-bottom: 20px;
 }
