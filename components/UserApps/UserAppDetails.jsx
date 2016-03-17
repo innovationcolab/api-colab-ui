@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal, Input } from 'react-bootstrap';
+import querystring from 'querystring';
 import AppActions from '../../actions/AppActions.jsx';
 import AppStore from '../../stores/AppStore.jsx';
 
@@ -57,7 +58,10 @@ class UserAppDetails extends Component {
 
   render() {
     const { activeUserApp } = AppStore.getState();
-    const apidocsURL = `http://apidocs.colab.duke.edu?clientId=${activeUserApp.clientId}`;
+    const query = querystring.stringify({
+      clientId: activeUserApp.clientId,
+    });
+    const apidocsURL = `http://apidocs.colab.duke.edu?${query}`;
     return (
       <div className="appDetails">
         <h3>App Details</h3>
