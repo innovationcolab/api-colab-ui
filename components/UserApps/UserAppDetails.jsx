@@ -57,10 +57,11 @@ class UserAppDetails extends Component {
 
   render() {
     const { activeUserApp } = AppStore.getState();
+    const redirectURL = `http://apidocs.colab.duke.edu?clientId=${activeUserApp.clientId}`;
     return (
       <div className="appDetails">
         <h3>App Details</h3>
-        <Button bsStyle="success" onClick={this.onClick}>Explore Co-Lab APIs for this app</Button>
+        <a className="btn btn-success" href={redirectURL}>Explore Co-Lab APIs for this app</a>
         <div className="row">
           <div className="col-sm-3 title">
             <p>App Name</p>
