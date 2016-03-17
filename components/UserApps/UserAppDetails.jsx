@@ -57,11 +57,11 @@ class UserAppDetails extends Component {
 
   render() {
     const { activeUserApp } = AppStore.getState();
-    const redirectURL = `http://apidocs.colab.duke.edu?clientId=${activeUserApp.clientId}`;
+    const apidocsURL = `http://apidocs.colab.duke.edu?clientId=${activeUserApp.clientId}`;
     return (
       <div className="appDetails">
         <h3>App Details</h3>
-        <a className="btn btn-success" href={redirectURL}>Explore Co-Lab APIs for this app</a>
+        <a className="btn btn-success" href={apidocsURL} target="_blank">Explore Co-Lab APIs for this app</a>
         <div className="row">
           <div className="col-sm-3 title">
             <p>App Name</p>
@@ -76,6 +76,18 @@ class UserAppDetails extends Component {
           </div>
           <div className="col-sm-9 description">
             <p>{activeUserApp.clientId}</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-3 title">
+            <p>Redirect URI(s)</p>
+          </div>
+          <div className="col-sm-9 description">
+            {activeUserApp.redirectURIs.map((uri) => {
+              return (
+                <p key={uri}>{uri}</p>
+              );
+            })}
           </div>
         </div>
         <div className="row">
@@ -103,9 +115,8 @@ class UserAppDetails extends Component {
           </div>
         </div>
         <div className="row">
-
           <div className="col-sm-3 title">
-            <p>Permissions</p>
+            <p>Permission(s)</p>
           </div>
           <div className="col-sm-9 description">
             {activeUserApp.permissions.map((perm) => {
@@ -115,7 +126,7 @@ class UserAppDetails extends Component {
             })}
           </div>
         </div>
-        <Button bsStyle="primary" onClick={this.onClick}>Edit App Details</Button>
+        {/* <Button bsStyle="primary" onClick={this.onClick}>Edit App Details</Button> */}
         <Button bsStyle="danger" onClick={this.onClick}>Delete App</Button>
         <Modal show={this.state.showModal} onHide={this.closeModal}>
           <Modal.Header closeButton>
