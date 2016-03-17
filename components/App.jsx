@@ -19,7 +19,7 @@ class App extends Component {
 
   componentDidMount() {
     AppStore.listen(this.onChange);
-    if (AuthStore.getState().accessToken && AuthStore.getState().user) {
+    if (AuthStore.getState().accessToken) {
       AppActions.getUserApps();
     }
   }
