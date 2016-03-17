@@ -176,7 +176,7 @@ textarea, textarea.form-control, input.form-control, input[type=text], input[typ
 .netid-login{
     display: block;
     margin: 0 auto;
-    height: 49px;
+    height: 50px;
     width: 250px;
     background: url('images/netID-login.png') 0px 0px/250px 49px no-repeat no-repeat;
 }

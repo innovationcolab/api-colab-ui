@@ -6,13 +6,12 @@ const Title = () => {
   return (
     <div className="row">
         <div className="col-sm-4 col-sm-offset-4 title">
-                <div className="logobox">
 					
                     <img src="images/appreglogo.png" alt="app registration logo" />
+                    <p>To access the Co-Lab's data APIs, you'll need to register your application and get a key.  </p>
                     <a href={url} className="netid-login"> </a>
                    
-				</div>
-
+				
         </div>
     </div>
   );
