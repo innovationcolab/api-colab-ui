@@ -12,7 +12,8 @@ class AppActions {
       'submitUserApp',
       'cancelAddUserApp',
       'inputChange',
-      'getUserApps'
+      'getUserApps',
+      'handleError'
     );
   }
 }

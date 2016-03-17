@@ -45,7 +45,7 @@ class UserAppNew extends Component {
           Config.setPermissionObj(this.state.permissionObj);
         })
         .catch((res) => {
-          console.error(res);
+          AppActions.handleError({ type: 'permission_error', body: res });
         });
     }
   }

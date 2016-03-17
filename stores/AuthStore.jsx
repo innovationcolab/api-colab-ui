@@ -7,7 +7,7 @@ import Config from '../components/Config.jsx';
 
 class AuthStore {
   constructor() {
-    this.bindActions(AuthActions)
+    this.bindActions(AuthActions);
 
     this.accessToken = null;
     this.error = null;
@@ -22,8 +22,8 @@ class AuthStore {
     const paramObj = querystring.parse(hash.slice(1, hash.length));
 
     if (paramObj.state !== Config.getState()) {
-      console.error('state mismatch');
-      this.setState({ accessToken: null, error: 'state mismatch'});
+      AppActions.handleError({ type: 'state_mismatch', body: null });
+      this.setState({ accessToken: null, error: 'state mismatch' });
       return;
     }
     this.saveTokens(paramObj);
@@ -55,7 +55,7 @@ class AuthStore {
         AppActions.refreshUser(user);
       })
       .catch(res => {
-        console.error(res);
+        AppActions.handleError({ type: 'identity_error', body: res });
       });
   }
 
