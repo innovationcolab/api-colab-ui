@@ -60,14 +60,8 @@ gulp.task("webpack:build", function(callback) {
 	});
 });
 
-// modify some webpack config options
-var myDevConfig = Object.create(webpackConfig);
-console.info('web', myDevConfig);
-myDevConfig.devtool = "sourcemap";
-myDevConfig.debug = true;
-
 // create a single instance of the compiler to allow caching
-var devCompiler = webpack(myDevConfig);
+var devCompiler = webpack(webpackConfig);
 
 gulp.task("webpack:build-dev", function(callback) {
 	// run webpack
@@ -81,17 +75,11 @@ gulp.task("webpack:build-dev", function(callback) {
 });
 
 gulp.task("webpack-dev-server", function(callback) {
-	// modify some webpack config options
-	var myConfig = Object.create(webpackConfig);
-	myConfig.devtool = "eval";
-	myConfig.debug = true;
-
 	// Start a webpack-dev-server
-	new WebpackDevServer(webpack(myConfig), {
-		publicPath: "/" + myConfig.output.publicPath,
+	new WebpackDevServer(webpack(webpackConfig), {
+        historyApiFallback: true,
 		stats: {
 			colors: true,
-            historyApiFallback: true
 		}
 	}).listen(3001, "localhost", function(err) {
 		if(err) throw new gutil.PluginError("webpack-dev-server", err);
