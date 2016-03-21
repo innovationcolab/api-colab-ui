@@ -89,6 +89,9 @@ class UserAppNew extends Component {
         this.validateRedirectURIs(this.refs.redirectURIs.value.split(/[ ,]+/));
         break;
       case this.refs.privacyURL:
+        if (!activeUserApp.privacyURL || activeUserApp.privacyURL === '') {
+          activeUserApp.privacyURL = this.refs.privacyURL.value;
+        }
         this.validatePrivacyURL(activeUserApp.privacyURL);
         break;
       default:

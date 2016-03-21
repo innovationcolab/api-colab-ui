@@ -6,7 +6,7 @@ class Config {
   }
 
   static getClientId() {
-    return 'vw-test';
+    return 'innovation-co-lab-app-manager';
   }
 
   static getUserApps() {
@@ -28,9 +28,9 @@ class Config {
   static getQueryString() {
     return querystring.stringify({
       response_type: 'token',
-      redirect_uri: 'http://localhost:3001',
-      client_id: 'vw-test',
-      scope: 'meta:apps:write meta:apps:read oauth_registrations identity:netid:read',
+      redirect_uri: 'https://appmanager.colab.duke.edu',
+      client_id: 'innovation-co-lab-app-manager',
+      scope: 'meta:api:write meta:apps:write meta:apps:read oauth_registrations identity:netid:read',
       state: '842867',
     });
   }
