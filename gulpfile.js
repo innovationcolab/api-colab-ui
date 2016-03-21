@@ -5,6 +5,7 @@ var cleanCSS = require('gulp-clean-css');
 var webpack = require("webpack");
 var WebpackDevServer = require("webpack-dev-server");
 var webpackConfig = require("./webpack.config.js");
+var webpackProductionConfig = require('./webpack.production.config.js');
 
 // The development server (the recommended option for development)
 gulp.task("default", ["webpack-dev-server"]);
@@ -21,7 +22,7 @@ gulp.task("build-dev", ["webpack:build-dev"], function() {
 gulp.task("build", ["copy", 'css']);
 
 gulp.task('copy', ['clean', 'webpack:build'], function(callback) {
-	gulp.src(['./index.html', './images/**/*', './bundle.js'], { base: '.' })
+	gulp.src(['./images/**/*', './bundle.js'], { base: '.' })
 		.pipe(gulp.dest('./dist/'));
 	callback();
 });
@@ -38,8 +39,7 @@ gulp.task('css', ['clean'], function() {
 
 gulp.task("webpack:build", function(callback) {
 	// modify some webpack config options
-	var myConfig = Object.create(webpackConfig);
-	myConfig.plugins = myConfig.plugins.concat(
+	webpackProductionConfig.plugins = webpackProductionConfig.plugins.concat(
 		new webpack.DefinePlugin({
 			"process.env": {
 				// This has effect on the react lib size
@@ -51,7 +51,7 @@ gulp.task("webpack:build", function(callback) {
 	);
 
 	// run webpack
-	webpack(myConfig, function(err, stats) {
+	webpack(webpackProductionConfig, function(err, stats) {
 		if(err) throw new gutil.PluginError("webpack:build", err);
 		gutil.log("[webpack:build]", stats.toString({
 			colors: true
