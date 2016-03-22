@@ -3,6 +3,7 @@ import axios from 'axios';
 import querystring from 'querystring';
 import AuthActions from '../actions/AuthActions.jsx';
 import AppActions from '../actions/AppActions.jsx';
+import AppStore from './AppStore.jsx';
 import Config from '../components/Config.jsx';
 
 class AuthStore {
@@ -51,7 +52,11 @@ class AuthStore {
           nickname: user.nickname,
         };
         this.setState({ user });
-        localStorage.setItem('user', JSON.stringify(user));
+        try {
+          localStorage.setItem('user', JSON.stringify(user));
+        } catch (error) {
+          AppActions.handleError.defer({ type: 'storage_error', body: error });
+        }
         AppActions.refreshUser(user);
       })
       .catch(res => {
@@ -93,7 +98,11 @@ class AuthStore {
    */
   saveTokens(params) {
     const { access_token, user } = params;
-    localStorage.setItem('access_token', access_token);
+    try {
+      localStorage.setItem('access_token', access_token);
+    } catch (error) {
+      AppActions.handleError.defer({ type: 'storage_error', body: error });
+    }
     this.setState({ accessToken: access_token, error: null, user });
   }
 

@@ -38,9 +38,7 @@ class App extends Component {
   }
 
   closeModal() {
-    this.setState({
-      showNoRefreshModal: false,
-    });
+    AppActions.closeModal();
   }
 
   render() {

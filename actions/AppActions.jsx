@@ -13,7 +13,8 @@ class AppActions {
       'cancelAddUserApp',
       'inputChange',
       'getUserApps',
-      'handleError'
+      'handleError',
+      'closeModal'
     );
   }
 }

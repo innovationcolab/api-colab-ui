@@ -209,6 +209,14 @@ class AppStore {
           },
         });
         break;
+      case 'storage_error':
+        this.setState({
+          error: {
+            type: 'no_refresh',
+            msg: 'An error occurred in while trying to cache your login state. This is likely due to private/incognito mode of the browser you are using. The error will not prevent you from using the App Manager, but you may need to login again if you refresh the page.',
+          },
+        });
+        break;
       default:
         this.setState({
           error: {
@@ -218,7 +226,7 @@ class AppStore {
         });
     }
 
-    const { error } = this.state;
+    const { error } = this;
     if (error.type === 'no_refresh') {
       this.setState({
         showRefreshModal: false,
@@ -230,6 +238,13 @@ class AppStore {
         showNoRefreshModal: false,
       });
     }
+  }
+
+  onCloseModal() {
+    this.setState({
+      showNoRefreshModal: false,
+      error: {},
+    });
   }
 }
 
