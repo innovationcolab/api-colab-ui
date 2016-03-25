@@ -84,6 +84,14 @@ class UserAppDetails extends Component {
         </div>
         <div className="row">
           <div className="col-sm-3 title">
+            <p>Client Secret</p>
+          </div>
+          <div className="col-sm-9 description">
+            <p>{activeUserApp.clientSecret}</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-3 title">
             <p>Redirect URI(s)</p>
           </div>
           <div className="col-sm-9 description">
