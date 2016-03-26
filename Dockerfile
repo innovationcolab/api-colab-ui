@@ -7,6 +7,7 @@ RUN     apt-get install -y nodejs
 
 COPY    . /src
 RUN     cd /src ; npm install
+RUN     npm install -g gulp
 RUN     cd /src ; gulp build
 
-VOLUME  ["/src"]
+VOLUME  ["/src/dist"]
