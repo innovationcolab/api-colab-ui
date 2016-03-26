@@ -57,13 +57,23 @@ class AppStore {
     });
   }
 
+  onSyncActiveUserApp(newActiveUserApp) {
+    const { userApps } = this;
+    let { activeUserApp } = this;
+    activeUserApp = userApps[userApps.length - 1] = Object.assign({}, activeUserApp, newActiveUserApp);
+    this.setState({
+      activeUserApp,
+      userApps,
+    });
+  }
+
   onAddUserApp() {
     const { userApps } = this;
     let { activeUserApp, addingNewApp } = this;
     activeUserApp = {
       newApp: true,
-      clientId: Config.getNewAppId(),
-      displayName: '',
+      redirectURIs: ['http://apidocs.colab.duke.edu/o2c.html', ''],
+      privacyURL: Config.getDefaultPrivacyURL(),
     };
     userApps.push(activeUserApp);
     addingNewApp = true;

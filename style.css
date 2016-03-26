@@ -150,12 +150,16 @@ textarea, textarea.form-control, input.form-control, input[type=text], input[typ
 	margin-top: 30px;
 }
 
+.plus-button, .minus-button {
+	padding: 10px;
+}
+
 input[type="checkbox"]:checked:after, .checkbox input[type="checkbox"]:checked:after, .checkbox-inline input[type="checkbox"]:checked:after{
 	 background-color: #4b759b;
 	 border-color: #4b759b;
  }
 
-textarea, textarea.form-control, input.form-control, input[type=text], input[type=password], input[type=email], input[type=number], [type=text].form-control, [type=password].form-control, [type=email].form-control, [type=tel].form-control, [contenteditable].form-control{
+textarea, textarea.form-control, input.form-control, input.form-control[disabled], input[type=text], input[type=text][disabled], input[type=password], input[type=email], input[type=number], [type=text].form-control, [type=text].form-control[disabled], [type=password].form-control, [type=email].form-control, [type=tel].form-control, [contenteditable].form-control{
 	box-shadow: none;
 	-webkit-box-shadow: none;
 	border: 1px solid #19273C;

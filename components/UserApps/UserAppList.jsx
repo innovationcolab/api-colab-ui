@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AppActions from '../../actions/AppActions.jsx';
 import AppStore from '../../stores/AppStore.jsx';
 import UserApp from './UserApp.jsx';
+import Config from '../Config.jsx';
 
 class UserAppList extends Component {
   constructor(props) {
@@ -37,6 +38,15 @@ class UserAppList extends Component {
           <ul id="applist">
             {userApps.map((app) => {
               const key = app.clientId;
+              const newAppId = Config.getNewAppId();
+              if (app.newApp) {
+                return (
+                  <UserApp
+                    userApp={app}
+                    key={newAppId}
+                  />
+                );
+              }
               return (
                 <UserApp
                   userApp={app}
