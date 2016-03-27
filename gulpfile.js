@@ -22,7 +22,7 @@ gulp.task("build-dev", ["webpack:build-dev"], function() {
 gulp.task("build", ["copy", 'css']);
 
 gulp.task('copy', ['clean', 'webpack:build'], function(callback) {
-	gulp.src(['./images/**/*', './bundle.js'], { base: '.' })
+	gulp.src(['./images/**/*', './favicon.png'], { base: '.' })
 		.pipe(gulp.dest('./dist/'));
 	callback();
 });

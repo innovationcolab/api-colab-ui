@@ -1,0 +1,12 @@
+version: '2'
+services:
+  webapp:
+    build: .
+  appmanager:
+    image: nginx
+    depends_on:
+      - webapp
+    volumes_from:
+      - webapp:ro
+    network_mode: "host"
+    restart: always
